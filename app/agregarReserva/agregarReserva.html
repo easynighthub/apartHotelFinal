@@ -1,0 +1,114 @@
+
+<center>
+    <div class="mdl-cell mdl-cell--11-col mdl-cell--12-col-phone">
+<br>
+
+    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 5px;padding-bottom :70px">
+        <STRONG>HORARIOS</STRONG>
+        <BR>
+        <div style="float: left; width:50%;overflow:hidden;">
+
+            <STRONG>LLegada</STRONG>
+            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                <md-datepicker ng-model="fechaInicio" md-placeholder="5/18/2017"></md-datepicker>
+            </md-input-container>
+        </div>
+
+        <div style="float: right; width:50%;overflow:hidden;">
+
+            <STRONG>Salida</STRONG>
+            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+             <md-datepicker style="vertical-align: middle;" ng-model="fechaFin" md-placeholder="5/18/2017"></md-datepicker>
+            </md-input-container>
+        </div>
+
+    </div>
+<br>
+
+
+    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 10px;padding-bottom :70px">
+        <STRONG>DATOS CLIENTES</STRONG>
+<br>
+        <div class="artista-select" style="float: left; width:33%;overflow:hidden;">
+            <STRONG>Nombre Cliente</STRONG>
+            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                <label>-</label>
+                <input ng-model="reserva.nameCliente">
+            </md-input-container>
+        </div>
+
+        <div class=" music-select" style="float: left; width:33%;overflow:hidden;">
+            <STRONG>Numero de Habitacion</STRONG>
+            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                <label>-</label>
+                <md-select class=" musicalSelec" ng-model="reserva.habitacionId">
+                    <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.id" ng-repeat="habitacion in habitaciones"
+                               ng-show="habitacion.visible == true">{{habitacion.numeroHabitacion}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+
+        <div class="ambiente-select" style="float: left; width:33%;overflow:hidden;">
+            <STRONG>Empresa</STRONG>
+            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                <label>-</label>
+                <md-select ng-model="reserva.empresaId" >
+                    <md-option class="ambiente-option" ng-value="false" >
+                               Sim Empresa
+                    </md-option>
+                    <md-option  class="ambiente-option" ng-value="empresa.id"
+                               ng-repeat="empresa in empresas">{{empresa.name}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+
+    </div>
+<br>
+    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 10px;padding-bottom :70px">
+
+        <STRONG>COSTOS</STRONG>
+        <br>
+        <div class="artista-select" style="float: left; width:33.3%;overflow:hidden;">
+            <STRONG>Valor por dia</STRONG>
+            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                <label>-</label>
+                <input type="number" ng-model="reserva.price">
+            </md-input-container>
+        </div>
+        <div  class="artista-select" style="float: left; width:33.3%;overflow:hidden;">
+            <STRONG>Total de dias</STRONG>
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                <p>  {{totalDias}}  </p>
+
+            </div>
+        </div>
+        <div class="artista-select" style="float: left; width:33.3%;overflow:hidden;">
+            <STRONG>Valor Total</STRONG>
+            <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+              <p>{{reserva.price*totalDias}} </p>
+
+            </div>
+        </div>
+    </div>
+<br>
+    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 5px;padding-bottom :20px">
+        <STRONG>DESCRIPCION</STRONG>
+        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
+
+                    <textarea required ng-model="reserva.detalle" md-maxlength="100" rows="2"
+                              md-select-on-focus></textarea>
+        </md-input-container>
+    </div>
+
+    <button ng-click="guardarReserva(reserva,fechaInicio,fechaFin)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        <i class="material-icons">&#xE161;</i>  Guardar Reserva
+    </button>
+
+    </div>
+
+
+</center>
+

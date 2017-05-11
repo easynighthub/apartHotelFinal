@@ -6,10 +6,13 @@ angular.module('myApp', [
   'firebase',
   'ngMaterial',
   'myApp.view1',
-  'myApp.view2'
+  'myApp.view2',
+    'myApp.agregarReserva'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
   $routeProvider.otherwise({redirectTo: '/view1'});
+
+
 }]);
