@@ -18,6 +18,11 @@ angular.module('myApp.agregarReserva', ['ngRoute'])
 
             $scope.reserva =[];
             $scope.habitaciones = [];
+            $scope.totalDias = 0;
+            $scope.reserva.price = 0;
+            $scope.fechaHoy = new Date();
+
+
             var buscarHabitaciones = firebase.database().ref().child('habitaciones');
             var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
             buscarHabitacionesER.$loaded().then(function () {
@@ -39,8 +44,12 @@ angular.module('myApp.agregarReserva', ['ngRoute'])
               //  if(fechaInicio<fechaFin){
                     reserva.checkIn = false;
                     reserva.checkOut = false;
-                    reserva.fechaInicio = new Date(fechaInicio).getTime();
-                    reserva.fechaFin = new Date(fechaFin).getTime();
+                    reserva.fechaInicio = new Date(fechaInicio).getTime()/1000;
+                    reserva.fechaFin = new Date(fechaFin).getTime()/1000;
+                    reserva.totalDias = parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400);
+                    reserva.totalAPagar = reserva.totalDias * reserva.price;
+                    reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";
+                    reserva.dateIn = parseInt(new Date().getTime()/1000);
 
                     console.log(reserva);
                // }else
@@ -53,9 +62,9 @@ angular.module('myApp.agregarReserva', ['ngRoute'])
             $scope.goPrice = function(empresa,fechaInicio, fechaFin) {
             console.log(empresa);
             $scope.reserva.price = empresa.valor;
-                var fechaInicio = new Date(fechaInicio).getTime();
-                var fechaFin = new Date(fechaFin).getTime();
-              $scope.totalDias = ((fechaFin - fechaInicio  )/86400000);
+                var fechaInicio = new Date(fechaInicio).getTime()/1000;
+                var fechaFin = new Date(fechaFin).getTime()/1000;
+              $scope.totalDias = parseInt((fechaFin - fechaInicio  )/86400);
                 console.log($scope.totalDias);
 
 

@@ -10,7 +10,7 @@
 
             <STRONG>LLegada</STRONG>
             <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
-                <md-datepicker ng-model="fechaInicio" md-placeholder="5/18/2017"></md-datepicker>
+                <md-datepicker   md-min-date="fechaHoy" ng-model="fechaInicio" md-placeholder="5/18/2017"></md-datepicker>
             </md-input-container>
         </div>
 
@@ -18,7 +18,8 @@
 
             <STRONG>Salida</STRONG>
             <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
-             <md-datepicker style="vertical-align: middle;" ng-model="fechaFin" md-placeholder="5/18/2017"></md-datepicker>
+             <md-datepicker style="vertical-align: middle;"  md-min-date="fechaInicio"
+                            ng-model="fechaFin" md-placeholder="5/18/2017"></md-datepicker>
             </md-input-container>
         </div>
 
@@ -26,7 +27,7 @@
 <br>
 
 
-    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 10px;padding-bottom :70px">
+    <div  class="col-xs-12 contentCard white-bg" STYLE="padding-top: 10px;padding-bottom :70px">
         <STRONG>DATOS CLIENTES</STRONG>
 <br>
         <div class="artista-select" style="float: left; width:33%;overflow:hidden;">
@@ -67,7 +68,7 @@
 
     </div>
 <br>
-    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 10px;padding-bottom :70px">
+    <div  class="col-xs-12 contentCard white-bg" STYLE="padding-top: 10px;padding-bottom :70px">
 
         <STRONG>COSTOS</STRONG>
         <br>
@@ -94,7 +95,7 @@
         </div>
     </div>
 <br>
-    <div class="col-xs-12 contentCard white-bg" STYLE="padding-top: 5px;padding-bottom :20px">
+    <div  class="col-xs-12 contentCard white-bg" STYLE="padding-top: 5px;padding-bottom :20px">
         <STRONG>DESCRIPCION</STRONG>
         <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
 
