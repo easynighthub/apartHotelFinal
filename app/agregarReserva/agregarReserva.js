@@ -41,7 +41,11 @@ angular.module('myApp.agregarReserva', ['ngRoute'])
 
             });
             $scope.guardarReserva = function(reserva,fechaInicio, fechaFin){
-              //  if(fechaInicio<fechaFin){
+               if(fechaInicio<fechaFin){
+
+                   var user = [];
+                   user.id =  firebase.database().ref().child('users/').push().key;
+
                     reserva.checkIn = false;
                     reserva.checkOut = false;
                     reserva.fechaInicio = new Date(fechaInicio).getTime()/1000;
@@ -50,9 +54,19 @@ angular.module('myApp.agregarReserva', ['ngRoute'])
                     reserva.totalAPagar = reserva.totalDias * reserva.price;
                     reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";
                     reserva.dateIn = parseInt(new Date().getTime()/1000);
+                    reserva.userId = user.id;
 
                     console.log(reserva);
-               // }else
+                     reserva.id = firebase.database().ref().child('reservas/').push().key; //esto es solo para probar rapido;
+
+                   user.name = reserva.nameCliente;
+                   user.correo = "androstoic@gmail.com";
+                   user.celular = "+56971576339";
+                   user.dni = 18246773;
+
+                   firebase.database().ref('reservas/'+reserva.id ).set(reserva);
+                   firebase.database().ref('users/'+user.id ).set(user);
+               }else
                 {
                     alert("LA FECHA DE INICIO TIENE QUE SER MENOR A LA FECHA DE FIN")
                 }
