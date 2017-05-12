@@ -9,7 +9,7 @@ angular.module('myApp.empresas', ['ngRoute'])
         });
     }])
 
-    .controller('empresas', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope',
+    .controller('viewempresas', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope) {
 
 
@@ -29,7 +29,7 @@ angular.module('myApp.empresas', ['ngRoute'])
                 console.log(empresa);
                 var ref = firebase.database().ref().child("/company/").child(empresa.$id);
                 ref.update({
-                    activo : !empresa.activo
+                    visible : !empresa.visible
                 });
             };
 
