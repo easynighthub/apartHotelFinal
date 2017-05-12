@@ -1,0 +1,88 @@
+<center class="ng-scope">
+
+    <a href="#!/agregarEmpresa" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        <i class="material-icons" style="vertical-align: middle;">person_add</i>  Agregar Empresa
+    </a>
+
+    <table class="mdl-layout--large-screen-only mdl-cell mdl-cell--10-col  mdl-data-table   mdl-js-data-table  mdl-shadow--2dp">
+        <thead>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
+            <th>Nombre</th>
+            <th>Rut</th>
+            <th>Correo</th>
+            <th>Celular</th>
+            <th>Direccion</th>
+            <!--	<th>Ingresos validados</th> -->
+        </tr>
+        </thead>
+        <!-- ngRepeat: clientes in clientes --><tbody ng-repeat="empresa in empresas" class="ng-scope">
+
+    <tr>
+
+        <td class="mdl-data-table__cell--non-numeric">
+            <i ng-show="empresa.activo == false" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                    <i class="material-icons">close</i>
+                </button>
+            </i>
+            <i ng-show="empresa.activo == true" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                    <i class="material-icons">done</i>
+                </button>
+            </i>
+        </td>
+        <td class="ng-binding">{{empresa.name}}</td>
+        <td class="ng-binding">{{empresa.rut}}</td>
+        <td class="ng-binding">{{empresa.email}}</td>
+        <td class="ng-binding">{{empresa.cellPhone}}</td>
+        <td class="ng-binding">{{empresa.address}}</td>
+
+
+        <td> <i class="material-icons">edit_mode</i>
+
+
+        </td>
+        <!--	<td>{{0}}</td> -->
+
+
+    </tr>
+    </tbody><!-- end ngRepeat: clientes in clientes -->
+    </table>
+
+    <table class="mdl-layout--small-screen-only mdl-cell mdl-cell--12-col mdl-cell--12-col-phone mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+        <thead>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
+            <th>Rut</th>
+            <th>Accion</th>
+            <!--	<th>Ingresos validados</th> -->
+        </tr>
+        </thead>
+        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="cliente in clientes" class="ng-scope">
+    <tr>
+
+        <td class="mdl-data-table__cell--non-numeric">
+            <i ng-show="cliente.activo == false" ng-click="validar(cliente)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                    <i class="material-icons">close</i>
+                </button>
+            </i>
+            <i ng-show="cliente.activo == true" ng-click="validar(cliente)" aria-hidden="true" role="button" tabindex="0">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                    <i class="material-icons">done</i>
+                </button>
+            </i>
+        </td>
+        <td class="ng-binding">{{cliente.rutCliente}}</td>
+        <td> <i class="material-icons">edit_mode</i>
+
+        </td>
+
+
+    </tr>
+    </tbody><!-- end ngRepeat: clientes in clientes -->
+    </table>
+</center>
+
+

@@ -22,6 +22,9 @@ angular.module('myApp.view1', ['ngRoute'])
             }
 
 
+            $scope.goEmpresa = function() {
+                location.href = "#!/empresas";
+            }
 
 
         }]);
