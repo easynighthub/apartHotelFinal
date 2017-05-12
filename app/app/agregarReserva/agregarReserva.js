@@ -73,13 +73,14 @@ angular.module('myApp.agregarReserva', ['ngRoute'])
             }
 
 
-            $scope.goPrice = function(empresa,fechaInicio, fechaFin) {
-            console.log(empresa);
-            $scope.reserva.price = empresa.valor;
+            $scope.goPrice = function(habitacion,fechaInicio, fechaFin) {
+            console.log(habitacion);
+            $scope.reserva.price = habitacion.valor;
                 var fechaInicio = new Date(fechaInicio).getTime()/1000;
                 var fechaFin = new Date(fechaFin).getTime()/1000;
               $scope.totalDias = parseInt((fechaFin - fechaInicio  )/86400);
                 console.log($scope.totalDias);
+                $scope.totalAPagar = habitacion.valor* $scope.totalDias;
 
 
 
