@@ -27,3 +27,6 @@
   content: "|";
   padding-right: 0.3em;
 }
+/* dialog */
+.dialogdemoThemeInheritance .container {
+  text-align: center; }

@@ -52,6 +52,7 @@ angular.module('myApp.agregarEmpresa', ['ngRoute'])
                     email:$scope.email,
                     rut:$scope.rut,
                     address:$scope.address,
+                    visible:true,
 
                 };
                 var newPostKey = firebase.database().ref().child('posts').push().key;

@@ -1,8 +1,10 @@
 <center class="ng-scope">
 
-    <a href="#!/agregarEmpresa" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-        <i class="material-icons" style="vertical-align: middle;">person_add</i>  Agregar Empresa
-    </a>
+    <md-button
+            class="md-primary md-raised mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+            ng-click="agregarEmpresa()">
+            <i class="material-icons" style="vertical-align: middle;">business</i> Agregar Empresa
+    </md-button>
 
     <table class="mdl-layout--large-screen-only mdl-cell mdl-cell--10-col  mdl-data-table   mdl-js-data-table  mdl-shadow--2dp">
         <thead>
@@ -21,12 +23,12 @@
     <tr>
 
         <td class="mdl-data-table__cell--non-numeric">
-            <i ng-show="empresa.activo == false" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
+            <i ng-show="empresa.visible == false" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
                 <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                     <i class="material-icons">close</i>
                 </button>
             </i>
-            <i ng-show="empresa.activo == true" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0">
+            <i ng-show="empresa.visible == true" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0">
                 <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                     <i class="material-icons">done</i>
                 </button>
@@ -54,27 +56,27 @@
         <thead>
         <tr>
             <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
-            <th>Rut</th>
+            <th>Nombre</th>
             <th>Accion</th>
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
-        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="cliente in clientes" class="ng-scope">
+        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="empresa in empresas" class="ng-scope">
     <tr>
 
         <td class="mdl-data-table__cell--non-numeric">
-            <i ng-show="cliente.activo == false" ng-click="validar(cliente)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
+            <i ng-show="empresa.visible == false" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
                 <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                     <i class="material-icons">close</i>
                 </button>
             </i>
-            <i ng-show="cliente.activo == true" ng-click="validar(cliente)" aria-hidden="true" role="button" tabindex="0">
+            <i ng-show="empresa.visible == true" ng-click="validar(empresa)" aria-hidden="true" role="button" tabindex="0">
                 <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                     <i class="material-icons">done</i>
                 </button>
             </i>
         </td>
-        <td class="ng-binding">{{cliente.rutCliente}}</td>
+        <td class="ng-binding">{{empresa.name}}</td>
         <td> <i class="material-icons">edit_mode</i>
 
         </td>
@@ -83,6 +85,85 @@
     </tr>
     </tbody><!-- end ngRepeat: clientes in clientes -->
     </table>
+
 </center>
 
 
+<script type="text/ng-template" id="agregarEmpresa">
+    <md-dialog  aria-label="Agregar Empresa">
+<form ng-cloak>
+
+<md-toolbar>
+        <div style="background: #795548" class=" md-toolbar-tools">
+            <h2>Agregar Empresa</h2>
+            <span flex></span>
+
+            <md-button class="md-icon-button" ng-click="cancel()">
+               X <md-icon  aria-label="Close dialog"></md-icon>
+            </md-button>
+
+        </div>
+</md-toolbar>
+
+<md-dialog-content>
+
+        <div class="md-dialog-content">
+
+            <md-input-container class="md-block">
+                <label>Nombre</label>
+                <input required="" type="text" class="mdl-textfield__input" id="name">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="md-maxlength">Escriba Nombre Ej: Ripley.</div>
+            </md-input-container>
+
+
+            <md-input-container class="md-block">
+                <label>Celular</label>
+                <input required="" type="number" class="mdl-textfield__input" id="cellPhone">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="md-maxlength">Escriba Telefono Ej: 56 9 8529 6932.</div>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>RUT</label>
+                <input required="" type="text" class="mdl-textfield__input" id="rut">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="md-maxlength">Escriba RUT  Ej: 818529631 .</div>
+            </md-input-container>
+
+
+            <md-input-container class="md-block">
+                <label>Correo</label>
+                <input required="" type="email" class="mdl-textfield__input" overwrite-email name="overwrittenEmail" id="email">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="md-maxlength">Escriba Correo Ej: ApartHotel@gmail.com .</div>
+            </md-input-container>
+
+
+            <md-input-container class="md-block">
+                <label>Direccion</label>
+                <input required="" type="text" class="mdl-textfield__input" id="address">
+                <div ng-message="required">This is required.</div>
+                <div ng-message="md-maxlength">Escribala direccion  Ej: Av. Siempre Linda #4852 .</div>
+            </md-input-container>
+
+        </div>
+
+</md-dialog-content>
+
+<md-dialog-actions layout="row">
+        <span flex></span>
+
+        <md-button ng-click="answer('not useful')">
+            Not Useful
+        </md-button>
+
+        <md-button type="submit" ng-click="guardarEmpresa()" class="md-primary">
+            Guardar Empresa
+        </md-button>
+
+</md-dialog-actions>
+
+</form>
+    </md-dialog>
+</script>

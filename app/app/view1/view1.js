@@ -26,5 +26,9 @@ angular.module('myApp.view1', ['ngRoute'])
                 location.href = "#!/empresas";
             }
 
+            $scope.goHabitacion = function() {
+                location.href = "#!/habitaciones";
+            }
+
 
         }]);

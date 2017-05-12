@@ -9,7 +9,9 @@ angular.module('myApp', [
   'myApp.view2',
     'myApp.agregarReserva',
     'myApp.agregarEmpresa',
-    'myApp.empresas'
+    'myApp.empresas',
+    'myApp.agregarHabitacion',
+    'myApp.habitaciones',
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
