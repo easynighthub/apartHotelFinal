@@ -89,9 +89,9 @@
                 </center>
 
                 <center><strong> Datos </strong></center>
-<br><br>
+<br>
                             <div layout-gt-sm="row">
-                            <md-input-container class="mdl-cell  mdl-cell--12-col-phone" >
+                            <md-input-container class="mdl-cell  mdl-cell--12-col-phone  mdl-cell--12-col-tablet" >
                                 <label>Numero Habitacion </label>
                                 <md-select class=" musicalSelec" ng-model="reserva.habitacionId">
                                     <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.id" ng-repeat="habitacion in habitaciones"
@@ -100,7 +100,7 @@
                                 </md-select>
                             </md-input-container>
 
-                            <md-input-container  class="mdl-cell mdl-cell--12-col-phone">
+                            <md-input-container  class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
                                 <label>Empresa</label>
                                 <md-select ng-model="reserva.empresaId" >
                                     <md-option class="ambiente-option" ng-value="false" >
@@ -112,19 +112,19 @@
                                 </md-select>
                             </md-input-container>
 
-                            <md-input-container class="mdl-cell mdl-cell--12-col-phone" >
+                            <md-input-container class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet" >
                                 <label>Valor por dia</label>
                                 <input type="number" ng-model="reserva.price">
                             </md-input-container>
 
 
 
-                            <md-input-container  class="mdl-cell mdl-cell--12-col-phone">
+                            <md-input-container  class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
                                 <label>Total dias</label>
                                 <input type="number" ng-model="totalDias" disabled>
                             </md-input-container>
 
-                            <md-input-container class="mdl-cell mdl-cell--12-col-phone">
+                            <md-input-container class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
                                 <label>Total a Pagar</label>
                                 <input type="number" ng-model="totalAPagar" disabled>
                             </md-input-container>

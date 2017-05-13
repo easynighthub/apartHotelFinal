@@ -48,9 +48,9 @@
     <div flex="25" style="background: white">
         <md-input-container class="md-block" flex-gt-sm>
             <label>Numero Habitacion </label>
-            <md-select class=" musicalSelec" ng-model="reserva.habitacionId">
-                <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.id" ng-repeat="habitacion in habitaciones"
-                            ng-show="habitacion.visible == true">{{habitacion.numeroHabitacion}}
+            <md-select  ng-model="reserva.habitacionId">
+                <md-option ng-repeat="habitacion in habitaciones"  ng-value="habitacion.id" >
+                    {{habitacion.numeroHabitacion}}
                 </md-option>
             </md-select>
         </md-input-container>
