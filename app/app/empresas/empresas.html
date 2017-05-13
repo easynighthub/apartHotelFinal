@@ -152,15 +152,17 @@
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
-        <span flex></span>
+    <md-button flex="30" ng-click="cancel()" class="md-primary">
+       Cancelar
+    </md-button>
 
-        <md-button ng-click="answer('not useful')">
-            Not Useful
-        </md-button>
+    <div  flex="20" >
 
-        <md-button type="submit" ng-click="guardarEmpresa()" class="md-primary">
-            Guardar Empresa
-        </md-button>
+    </div>
+
+    <md-button flex="50"type="submit" ng-click="guardarEmpresa()" class="md-primary">
+        Guardar Empresa
+    </md-button>
 
 </md-dialog-actions>
 

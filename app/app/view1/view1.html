@@ -1,19 +1,34 @@
 
+<button ng-click="dialogAgregarReserva()" id="view-source" style="background:#1b001b"
+   class="mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect mdl-button--colored mdl-color-text--white">
+
+    <i class="material-icons">event</i></button>
+
+<style>
+    #view-source {
+        position: fixed;
+        display: block;
+        right: 0;
+        bottom: 0;
+        margin-right: 40px;
+        margin-bottom: 40px;
+        z-index: 900;
+    }
+</style>
+
+
+
+
 <center>
 <button class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
     <i class="material-icons" style="vertical-align: middle;">dashboard</i>
     Pantalla General
 </button>
     <br>
-<button ng-click="goReserva()" class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    <i class="material-icons" style="vertical-align: middle;">add</i>
-    Agregar Reserva
-</button>
-    <br>
-    <button ng-click="goEmpresa()" class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+<button ng-click="goEmpresa()" class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
         <i class="material-icons" style="vertical-align: middle;">add</i>
         Ver Empresas
-    </button>
+</button>
     <br>
 <button ng-click="goHabitacion()" class=" mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
     <i class="material-icons" style="vertical-align: middle;">home</i>  Habitaciones
@@ -27,3 +42,137 @@
     Check Out <div class="material-icons mdl-badge mdl-badge--overlap" data-badge="5">done_all</div>
 </button>
 </center>
+
+
+
+
+
+
+
+
+<script type="text/ng-template" id="dialogAgregarReserva">
+    <md-dialog  aria-label="Agregar Empresa">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548 ; width: 1000px;" class=" md-toolbar-tools">
+                    <h2>Agregar Empresa</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+        <md-dialog-content>
+
+            <div class="md-dialog-content" >
+
+
+                    <div   >
+
+                <center><strong> Fechas </strong>
+                        <br>
+
+                            <strong> Llegada </strong>
+                            <md-datepicker   md-min-date="fechaHoy" ng-model="fechaInicio" md-placeholder="5/18/2017"></md-datepicker>
+
+                            <strong> Salida </strong>
+                            <md-datepicker style="vertical-align: middle;"
+                                           md-min-date="fechaInicio"
+                                           ng-model="fechaFin"
+                                           md-placeholder="5/18/2017">
+                            </md-datepicker>
+
+                </center>
+
+                <center><strong> Datos </strong></center>
+<br><br>
+                            <div layout-gt-sm="row">
+                            <md-input-container class="mdl-cell  mdl-cell--12-col-phone" >
+                                <label>Numero Habitacion </label>
+                                <md-select class=" musicalSelec" ng-model="reserva.habitacionId">
+                                    <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.id" ng-repeat="habitacion in habitaciones"
+                                                ng-show="habitacion.visible == true">{{habitacion.numeroHabitacion}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+
+                            <md-input-container  class="mdl-cell mdl-cell--12-col-phone">
+                                <label>Empresa</label>
+                                <md-select ng-model="reserva.empresaId" >
+                                    <md-option class="ambiente-option" ng-value="false" >
+                                        Sim Empresa
+                                    </md-option>
+                                    <md-option  class="ambiente-option" ng-value="empresa.id"
+                                                ng-repeat="empresa in empresas">{{empresa.name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+
+                            <md-input-container class="mdl-cell mdl-cell--12-col-phone" >
+                                <label>Valor por dia</label>
+                                <input type="number" ng-model="reserva.price">
+                            </md-input-container>
+
+
+
+                            <md-input-container  class="mdl-cell mdl-cell--12-col-phone">
+                                <label>Total dias</label>
+                                <input type="number" ng-model="totalDias" disabled>
+                            </md-input-container>
+
+                            <md-input-container class="mdl-cell mdl-cell--12-col-phone">
+                                <label>Total a Pagar</label>
+                                <input type="number" ng-model="totalAPagar" disabled>
+                            </md-input-container>
+
+                        </div>
+
+
+                    </div>
+
+
+                <center><STRONG>Descripción</STRONG></center>
+
+                            <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
+
+                    <textarea required ng-model="reserva.detalle" md-maxlength="100" rows="3"
+                              md-select-on-focus></textarea>
+                            </md-input-container>
+
+
+
+                <center><STRONG>Nombre Cliente</STRONG></center>
+
+                <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                    <label>-</label>
+                    <input ng-model="reserva.nameCliente">
+                </md-input-container>
+
+
+            </div>
+
+
+        </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+                <div   >
+
+                </div>
+
+                <md-button type="submit" ng-click="guardarReserva(reserva,fechaInicio,fechaFin)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Guardar Empresa
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
