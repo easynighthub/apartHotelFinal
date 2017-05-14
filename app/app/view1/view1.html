@@ -32,7 +32,9 @@
 
             <md-card-actions layout="row" layout-align="end center">
                 <md-button>ANULAR</md-button>
-                <md-button class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK IN</md-button>
+                <md-button ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK IN</md-button>
+                <md-button ng-show="reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--light-blue-900">CHECK OUT</md-button>
+
             </md-card-actions>
         </md-card>
 
