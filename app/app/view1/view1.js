@@ -15,6 +15,32 @@ angular.module('myApp.view1', ['ngRoute'])
     .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog) {
 
+            $scope.reservas = [];
+
+            var buscarReservas = firebase.database().ref().child('reservas');
+            var buscarReservasER = $firebaseArray(buscarReservas);
+            buscarReservasER.$loaded().then(function () {
+                $scope.reservas = buscarReservasER;
+                console.log($scope.reservas);
+
+
+            });
+
+            var buscarHabitaciones = firebase.database().ref().child('habitaciones');
+            var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
+            buscarHabitacionesER.$loaded().then(function () {
+                $scope.habitaciones = buscarHabitacionesER;
+                console.log($scope.habitaciones);
+
+
+            });
+
+            $scope.getHabitacion = function (habitacionId) {
+                if (habitacionId) {
+                    var habitacionKey = Object.keys(habitacionId)[0];
+                    return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
+                }
+            }
 
 
             $scope.goReserva = function() {
@@ -169,12 +195,12 @@ angular.module('myApp.view1', ['ngRoute'])
                             console.log("se ejecuto la consulta final");
     reserva.checkIn = false;
     reserva.checkOut = false;
-    reserva.fechaInicio = new Date(fechaInicio).getTime()/1000;
-    reserva.fechaFin = new Date(fechaFin).getTime()/1000;
-    reserva.totalDias = parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400);
+    reserva.fechaInicio = new Date(fechaInicio).getTime();
+    reserva.fechaFin = new Date(fechaFin).getTime();
+    reserva.totalDias = parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400000);
     reserva.totalAPagar = reserva.totalDias * reserva.price;
     reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";
-    reserva.dateIn = parseInt(new Date().getTime()/1000);
+    reserva.dateIn = parseInt(new Date().getTime());
     reserva.userId = user.id;
 
     console.log(reserva);
@@ -218,9 +244,9 @@ angular.module('myApp.view1', ['ngRoute'])
                 $scope.goPrice = function(habitacion,fechaInicio, fechaFin) {
                     console.log(habitacion);
                     $scope.reserva.price = habitacion.valor;
-                    var fechaInicio = new Date(fechaInicio).getTime()/1000;
-                    var fechaFin = new Date(fechaFin).getTime()/1000;
-                    $scope.totalDias = parseInt((fechaFin - fechaInicio  )/86400);
+                    var fechaInicio = new Date(fechaInicio).getTime();
+                    var fechaFin = new Date(fechaFin).getTime();
+                    $scope.totalDias = parseInt((fechaFin - fechaInicio  )/86400000);
                     console.log($scope.totalDias);
                     $scope.totalAPagar = habitacion.valor* $scope.totalDias;
 
