@@ -55,6 +55,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 $scope.totalDias = 0;
                 $scope.reserva.price = 0;
                 $scope.fechaHoy = new Date();
+                $scope.userEncontrados = [];
 
 
                 var buscarHabitaciones = firebase.database().ref().child('habitaciones');
@@ -74,32 +75,139 @@ angular.module('myApp.view1', ['ngRoute'])
                     console.log($scope.empresas);
 
                 });
+
+
+
                 $scope.guardarReserva = function(reserva,fechaInicio, fechaFin){
+
                     if(fechaInicio<fechaFin){
 
+                        if (!$scope.fechaInicio) {
+                            return;
+                        }
+                        if (!$scope.fechaFin) {
+                            return;
+                        }
+                        if (!$scope.reserva.habitacionId) {
+                            return;
+                        }
+                        if (!$scope.reserva.empresaId) {
+                            return;
+                        }
+                        if (!$scope.reserva.price) {
+                            return;
+                        }
+                        if (!$scope.totalDias) {
+                            return;
+                        }
+                        if (!$scope.totalAPagar) {
+                            return;
+                        }
+                        if (!$scope.reserva.nameCliente) {
+                            return;
+                        }
+                        if (!$scope.reserva.correoCliente) {
+                            return;
+                        }
+                        if (!$scope.reserva.celularCliente) {
+                            return;
+                        }
+                        if (!$scope.reserva.paxCliente) {
+                            return;
+                        }
+                        if (!$scope.reserva.dni) {
+                            return;
+                        }
+                        if (!$scope.reserva.detalle) {
+                            return;
+                        }
+                        if (!$scope.reserva.dni) {
+                            return;
+                        }
+
+
+
+
+
+
                         var user = [];
-                        user.id =  firebase.database().ref().child('users/').push().key;
+                        var contador = 0;
+                        var finConsultas = false;
 
-                        reserva.checkIn = false;
-                        reserva.checkOut = false;
-                        reserva.fechaInicio = new Date(fechaInicio).getTime()/1000;
-                        reserva.fechaFin = new Date(fechaFin).getTime()/1000;
-                        reserva.totalDias = parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400);
-                        reserva.totalAPagar = reserva.totalDias * reserva.price;
-                        reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";
-                        reserva.dateIn = parseInt(new Date().getTime()/1000);
-                        reserva.userId = user.id;
+                        var buscarUsers = firebase.database().ref().child('users');
+                        var buscarUsersER = $firebaseArray(buscarUsers);
+                        buscarUsersER.$loaded().then(function () {
+                            $scope.userEncontrados = buscarUsersER;
+                            $scope.userEncontrados.forEach(function (x) {
+                                console.log(x);
+                                if(x.correo == reserva.correoCliente){
+                                    user.id = x.$id;
+                                    contador = 1;
+                                    console.log("funciono");
+                                    console.log(user.id);
+                                }
 
-                        console.log(reserva);
-                        reserva.id = firebase.database().ref().child('reservas/').push().key; //esto es solo para probar rapido;
 
-                        user.name = reserva.nameCliente;
-                        user.correo = "androstoic@gmail.com";
-                        user.celular = "+56971576339";
-                        user.dni = 18246773;
+                            });
+                            if(contador == 1){
+                                console.log("id ya ingresado");
+                                console.log(user.id+"id rescatado para update");
+                                finConsultas = true;
+                                $scope.finConsultaFunction();
 
-                        firebase.database().ref('reservas/'+reserva.id ).set(reserva);
-                        firebase.database().ref('users/'+user.id ).set(user);
+                            }else
+                            {
+                                finConsultas = true;
+                                user.id =  firebase.database().ref().child('users/').push().key;
+                                $scope.finConsultaFunction();
+
+                            }
+
+
+                        });
+                        $scope.finConsultaFunction = function(){
+                            console.log("se ejecuto la consulta final");
+    reserva.checkIn = false;
+    reserva.checkOut = false;
+    reserva.fechaInicio = new Date(fechaInicio).getTime()/1000;
+    reserva.fechaFin = new Date(fechaFin).getTime()/1000;
+    reserva.totalDias = parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400);
+    reserva.totalAPagar = reserva.totalDias * reserva.price;
+    reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";
+    reserva.dateIn = parseInt(new Date().getTime()/1000);
+    reserva.userId = user.id;
+
+    console.log(reserva);
+    reserva.id = firebase.database().ref().child('reservas/').push().key; //esto es solo para probar rapido;
+
+    user.name = reserva.nameCliente;
+    user.correo = reserva.correoCliente;
+    user.celular = reserva.celularCliente;
+    user.dni = reserva.dni;
+
+    firebase.database().ref('reservas/'+reserva.id).set(reserva);
+
+    firebase.database().ref('users/'+user.id).update({
+        id:user.id,
+        celular:user.celular,
+        correo:user.correo,
+        dni:user.dni,
+        name:user.name,
+
+    }).then(
+
+        function(s){
+            firebase.database().ref('users/' + user.id + '/reservas/' + reserva.id).set(true);
+            $mdDialog.hide();
+
+        }, function(e) {
+            alert('Error, Intente de Nuevo');
+            console.log('Se guardo mal ', e);
+        }
+    );
+
+}
+
                     }else
                     {
                         alert("LA FECHA DE INICIO TIENE QUE SER MENOR A LA FECHA DE FIN")

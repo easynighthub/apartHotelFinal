@@ -51,12 +51,12 @@
 
 
 <script type="text/ng-template" id="dialogAgregarReserva">
-    <md-dialog  aria-label="Agregar Empresa">
+    <md-dialog  aria-label="Agregar Reserva">
         <form ng-cloak>
 
             <md-toolbar>
                 <div style="background: #795548 ; width: 1000px;" class=" md-toolbar-tools">
-                    <h2>Agregar Empresa</h2>
+                    <h2>Agregar Reserva</h2>
                     <span flex></span>
 
                     <md-button class="md-icon-button" ng-click="cancel()">
@@ -71,42 +71,46 @@
             <div class="md-dialog-content" >
 
 
-                    <div   >
+                    <div>
 
                 <center><strong> Fechas </strong>
                         <br>
 
                             <strong> Llegada </strong>
-                            <md-datepicker   md-min-date="fechaHoy" ng-model="fechaInicio" md-placeholder="5/18/2017"></md-datepicker>
+                            <md-datepicker requiered  md-min-date="fechaHoy" ng-model="fechaInicio" md-placeholder="5/18/2017">
+
+                            </md-datepicker>
 
                             <strong> Salida </strong>
                             <md-datepicker style="vertical-align: middle;"
                                            md-min-date="fechaInicio"
                                            ng-model="fechaFin"
                                            md-placeholder="5/18/2017">
+
                             </md-datepicker>
 
                 </center>
-
+<br>
                 <center><strong> Datos </strong></center>
 <br>
                             <div layout-gt-sm="row">
                             <md-input-container class="mdl-cell  mdl-cell--12-col-phone  mdl-cell--12-col-tablet" >
                                 <label>Numero Habitacion </label>
-                                <md-select class=" musicalSelec" ng-model="reserva.habitacionId">
+                                <md-select required=""  class=" musicalSelec" ng-model="reserva.habitacionId">
                                     <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.id" ng-repeat="habitacion in habitaciones"
                                                 ng-show="habitacion.visible == true">{{habitacion.numeroHabitacion}}
                                     </md-option>
                                 </md-select>
+
                             </md-input-container>
 
                             <md-input-container  class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
                                 <label>Empresa</label>
-                                <md-select ng-model="reserva.empresaId" >
+                                <md-select required="" ng-model="reserva.empresaId" >
                                     <md-option class="ambiente-option" ng-value="false" >
                                         Sim Empresa
                                     </md-option>
-                                    <md-option  class="ambiente-option" ng-value="empresa.id"
+                                    <md-option  class="ambiente-option" ng-value="empresa.$id"
                                                 ng-repeat="empresa in empresas">{{empresa.name}}
                                     </md-option>
                                 </md-select>
@@ -114,19 +118,20 @@
 
                             <md-input-container class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet" >
                                 <label>Valor por dia</label>
-                                <input type="number" ng-model="reserva.price">
+                                <input required=""  type="number" ng-model="reserva.price">
+
                             </md-input-container>
 
 
 
                             <md-input-container  class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
                                 <label>Total dias</label>
-                                <input type="number" ng-model="totalDias" disabled>
+                                <input required="" type="number" ng-model="totalDias" disabled>
                             </md-input-container>
 
                             <md-input-container class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
                                 <label>Total a Pagar</label>
-                                <input type="number" ng-model="totalAPagar" disabled>
+                                <input required="" type="number" ng-model="totalAPagar" disabled>
                             </md-input-container>
 
                         </div>
@@ -135,23 +140,47 @@
                     </div>
 
 
+                <center><STRONG>Datos Clientes</STRONG></center><br>
+
+                <div layout-gt-sm="row">
+
+
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                        <label>Nombre </label>
+                        <input required="" type="text" ng-model="reserva.nameCliente">
+
+                    </md-input-container>
+
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                        <label>Correo </label>
+                        <input required="" type="email" ng-model="reserva.correoCliente">
+                    </md-input-container>
+
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                        <label>Celular </label>
+                        <input required="" type="number" ng-model="reserva.celularCliente">
+                    </md-input-container>
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                        <label>Numero de PAX </label>
+                        <input required="" type="number" ng-model="reserva.paxCliente">
+                    </md-input-container>
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                        <label>DNI </label>
+                        <input required="" type="number" ng-model="reserva.dni">
+                    </md-input-container>
+
+                </div>
+
+
                 <center><STRONG>Descripción</STRONG></center>
 
                             <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
 
-                    <textarea required ng-model="reserva.detalle" md-maxlength="100" rows="3"
-                              md-select-on-focus></textarea>
+                    <textarea  required="" ng-model="reserva.detalle" md-maxlength="100" rows="3"
+                              md-select-on-focus>
+
+                    </textarea>
                             </md-input-container>
-
-
-
-                <center><STRONG>Nombre Cliente</STRONG></center>
-
-                <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
-                    <label>-</label>
-                    <input ng-model="reserva.nameCliente">
-                </md-input-container>
-
 
             </div>
 
@@ -168,7 +197,7 @@
                 </div>
 
                 <md-button type="submit" ng-click="guardarReserva(reserva,fechaInicio,fechaFin)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                    Guardar Empresa
+                    Guardar reserva
                 </md-button>
 
             </md-dialog-actions>
