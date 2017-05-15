@@ -6,19 +6,20 @@
             <i class="material-icons" style="vertical-align: middle;">business</i> Agregar Empresa
     </md-button>
 
-    <table class="mdl-layout--large-screen-only mdl-cell mdl-cell--10-col  mdl-data-table   mdl-js-data-table  mdl-shadow--2dp">
+    <table class="mdl-layout--large-screen-only mdl-cell mdl-data-table   mdl-js-data-table  mdl-shadow--2dp">
         <thead>
         <tr>
             <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
-            <th>Nombre</th>
-            <th>Rut</th>
-            <th>Correo</th>
-            <th>Celular</th>
-            <th>Direccion</th>
+            <th class="mdl-data-table__cell--non-numeric">Nombre</th>
+            <th class="mdl-data-table__cell--non-numeric">Rut</th>
+            <th class="mdl-data-table__cell--non-numeric">Correo</th>
+            <th class="mdl-data-table__cell--non-numeric">Celular</th>
+            <th class="mdl-data-table__cell--non-numeric">Direccion</th>
+            <th class="mdl-data-table__cell--non-numeric">Acciones</th>
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
-        <!-- ngRepeat: clientes in clientes --><tbody ng-repeat="empresa in empresas" class="ng-scope">
+        <!-- ngRepeat: clientes in clientes --><tbody ng-repeat="empresa in empresas" class="ng-scope" ng-click="editarEmpresa(empresa)">
 
     <tr>
 
@@ -34,14 +35,20 @@
                 </button>
             </i>
         </td>
-        <td class="ng-binding">{{empresa.name}}</td>
-        <td class="ng-binding">{{empresa.rut}}</td>
-        <td class="ng-binding">{{empresa.email}}</td>
-        <td class="ng-binding">{{empresa.cellPhone}}</td>
-        <td class="ng-binding">{{empresa.address}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{empresa.name}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{empresa.rut}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{empresa.email}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{empresa.cellPhone}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{empresa.address}}</td>
 
 
-        <td> <i class="material-icons">edit_mode</i>
+        <td class="mdl-data-table__cell--non-numeric">
+
+            <i ng-click="editarEmpresa(empresa)" aria-hidden="true" role="button" tabindex="0" >
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                    <i class="material-icons">edit_mode</i>
+                </button>
+            </i>
 
 
         </td>
@@ -95,7 +102,7 @@
 
 <md-toolbar>
         <div style="background: #795548" class=" md-toolbar-tools">
-            <h2>Agregar Empresa</h2>
+            <h2>{{titulo}}</h2>
             <span flex></span>
 
             <md-button class="md-icon-button" ng-click="cancel()">
@@ -111,7 +118,7 @@
 
             <md-input-container class="md-block">
                 <label>Nombre</label>
-                <input required="" type="text" class="mdl-textfield__input" id="name">
+                <input required=""  ng-model="name" type="text" class="mdl-textfield__input" id="name">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="md-maxlength">Escriba Nombre Ej: Ripley.</div>
             </md-input-container>
@@ -119,14 +126,14 @@
 
             <md-input-container class="md-block">
                 <label>Celular</label>
-                <input required="" type="number" class="mdl-textfield__input" id="cellPhone">
+                <input required="" ng-model="cellPhone" type="number" class="mdl-textfield__input" id="cellPhone">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="md-maxlength">Escriba Telefono Ej: 56 9 8529 6932.</div>
             </md-input-container>
 
             <md-input-container class="md-block">
                 <label>RUT</label>
-                <input required="" type="text" class="mdl-textfield__input" id="rut">
+                <input required="" ng-model="rut" type="text" class="mdl-textfield__input" id="rut">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="md-maxlength">Escriba RUT  Ej: 818529631 .</div>
             </md-input-container>
@@ -134,7 +141,7 @@
 
             <md-input-container class="md-block">
                 <label>Correo</label>
-                <input required="" type="email" class="mdl-textfield__input" overwrite-email name="overwrittenEmail" id="email">
+                <input required="" ng-model="email" type="email" class="mdl-textfield__input" overwrite-email name="overwrittenEmail" id="email">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="md-maxlength">Escriba Correo Ej: ApartHotel@gmail.com .</div>
             </md-input-container>
@@ -142,7 +149,7 @@
 
             <md-input-container class="md-block">
                 <label>Direccion</label>
-                <input required="" type="text" class="mdl-textfield__input" id="address">
+                <input required="" ng-model="address" type="text" class="mdl-textfield__input" id="address">
                 <div ng-message="required">This is required.</div>
                 <div ng-message="md-maxlength">Escriba la direccion  Ej: Av. Siempre Linda #4852 .</div>
             </md-input-container>
