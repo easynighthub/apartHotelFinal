@@ -12,10 +12,10 @@ angular.module('myApp.habitaciones', ['ngRoute'])
         });
     }])
 
-    .controller('viewhabitaciones', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope',
-        function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope) {
+    .controller('viewhabitaciones', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog',
+        function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope,$mdDialog) {
 
-
+            var editarHabitacionSelect = [];
             // para obtener datos de firebase
             var habitacionesER = firebase.database().ref().child('habitaciones');
             $scope.habitacionesER = $firebaseArray(habitacionesER);
@@ -35,10 +35,138 @@ angular.module('myApp.habitaciones', ['ngRoute'])
                 });
             };
 
+            $scope.editarHabitacion = function (habitacion) {
+                var editarHabitacionSelect = habitacion;
+                $scope.titulo =" Editar Habitacion";
+
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'agregarHabitacion',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        habitacionSelect : editarHabitacionSelect,
+                        titulo : $scope.titulo
+                    }
+                })
+
+
+            };
+
+            $scope.agregarHabitacion = function () {
+                $scope.titulo =" Agregar Habitacion";
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'agregarHabitacion',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        habitacionSelect : "",
+                        titulo : $scope.titulo
+                    }
+                })
+            };
+
+
+            function DialogController($scope, $mdDialog, habitacionSelect,titulo) {
+                $scope.titulo = titulo;
+                console.log(habitacionSelect);
+                var idSelectHabitacion = "";
+
+
+                if(habitacionSelect != ""){
+                    $scope.numeroHabitacion =  habitacionSelect.numeroHabitacion;
+                    $scope.valor =  habitacionSelect.valor;
+                    idSelectHabitacion = habitacionSelect.$id;
+                }
+
+
+                $scope.hide = function() {
+                    $mdDialog.hide();
+                };
+
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+
+                };
+
+
+                $scope.guardarHabitacion = function() {
+
+                    $scope.numeroHabitacion = document.getElementById('numeroHabitacion').value;
+                    $scope.valor = parseInt(document.getElementById('valor').value);
+
+
+                    if (!$scope.numeroHabitacion) {
+
+                        return;
+                    }
+                    if (!$scope.valor) {
+
+                        return;
+                    }
+
+
+                    var habitacion = {
+
+                        numeroHabitacion: $scope.numeroHabitacion,
+                        valor: $scope.valor,
+                        visible:true,
+
+                    };
+
+                    saveToFIrebase(habitacion,idSelectHabitacion);
+
+                };
+            }
 
 
 
+            var saveToFIrebase = function(habitacion,idSelectHabitacion) {
+                var  idHabitacionParaGuardar = "";
+                if(idSelectHabitacion != ""){
+                    idHabitacionParaGuardar = idSelectHabitacion;
+                    console.log(idHabitacionParaGuardar + "id existente");
+                    firebase.database().ref('habitaciones/'+idHabitacionParaGuardar).update(habitacion).then(
+                        function(s){
+                            $mdDialog.hide();
+
+                        }, function(e) {
+                            alert('Error, Intente de Nuevo');
+                            console.log('Se guardo mal ', e);
+                        }
+                    );
+
+                }
+                else
+                {
+
+                    console.log($scope.habitaciones);
+                    var existe = false;
+                    $scope.habitaciones.forEach(function (habitacionFor) {
+                        if(habitacionFor.numeroHabitacion == habitacion.numeroHabitacion){
+                            alert('la Habitacion ya existe en el sistema.');
+                            existe = true;
+                        }
+
+                    });
+
+                    if(existe == false){
+                        var idHabitacionParaGuardar = firebase.database().ref().child('habitaciones').push().key;
+                        firebase.database().ref('habitaciones/'+idHabitacionParaGuardar).update(habitacion).then(
+                            function(s){
+                                $mdDialog.hide();
+
+                            }, function(e) {
+                                alert('Error, Intente de Nuevo.');
+                                console.log('Se guardo mal ', e);
+                            }
+                        );
+                    }
+
+                }
 
 
 
+            };
         }]);

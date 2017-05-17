@@ -115,7 +115,8 @@ angular.module('myApp.empresas', ['ngRoute'])
                     }
                     if (!$scope.rut) {
                         return;
-                    } if (!$scope.address) {
+                    }
+                    if (!$scope.address) {
                         return;
                     }
 

@@ -1,15 +1,18 @@
 <center class="ng-scope">
 
-    <a href="#!/agregarHabitacion" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-        <i class="material-icons">hotel</i> Agregar Habitacion
-    </a>
+    <md-button
+            class="md-primary md-raised mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+            ng-click="agregarHabitacion()">
+        <i class="material-icons" style="vertical-align: middle;">hotel</i> Agregar Habitacion
+    </md-button>
 
     <table class="mdl-layout--large-screen-only mdl-cell mdl-cell--10-col  mdl-data-table   mdl-js-data-table  mdl-shadow--2dp">
         <thead>
         <tr>
             <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
-            <th>Numero de Habitacion</th>
-            <th>Valor: $</th>
+            <th class="mdl-data-table__cell--non-numeric">Numero de Habitacion</th>
+            <th class="mdl-data-table__cell--non-numeric">Valor: $</th>
+            <th class="mdl-data-table__cell--non-numeric">Acciones</th>
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
@@ -29,12 +32,18 @@
                 </button>
             </i>
         </td>
-        <td class="ng-binding">{{habitacion.numeroHabitacion}}</td>
-        <td class="ng-binding">{{habitacion.valor}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{habitacion.numeroHabitacion}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{habitacion.valor}}</td>
 
 
 
-        <td> <a ng-click> <i class="material-icons">edit_mode </i> </a>
+        <td class="mdl-data-table__cell--non-numeric">
+
+            <i ng-click="editarHabitacion(habitacion)" aria-hidden="true" role="button" tabindex="0" >
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                    <i class="material-icons">edit_mode</i>
+                </button>
+            </i>
 
 
         </td>
@@ -54,7 +63,7 @@
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
-        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="empresa in empresas" class="ng-scope">
+        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="habitaicon in habitaciones" class="ng-scope">
     <tr>
 
         <td class="mdl-data-table__cell--non-numeric">
@@ -81,3 +90,62 @@
 </center>
 
 
+
+<script type="text/ng-template" id="agregarHabitacion">
+    <md-dialog  aria-label="Agregar Habitacion">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548" class=" md-toolbar-tools">
+                    <h2>{{titulo}}</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content">
+
+
+                        <md-input-container class="md-block">
+                            <label>Numero Habitacion</label>
+                            <input required="" type="text" class="mdl-textfield__input" id="numeroHabitacion">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">Escriba Numero de Habitacion. Ej:B241</div>
+                        </md-input-container>
+
+
+                        <md-input-container class="md-block">
+                            <label>Valor</label>
+                            <input required="" type="number" class="mdl-textfield__input" id="valor">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">Escriba un Valor. Ej:$35.990</div>
+                        </md-input-container>
+
+                </div>
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button flex="30" ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+                <div  flex="20" >
+
+                </div>
+
+                <md-button flex="50"type="submit" ng-click="guardarHabitacion()" class="md-primary">
+                    Guardar Habitacion
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
