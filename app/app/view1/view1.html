@@ -1,6 +1,11 @@
 
-
-
+<div id="BarraCargando" style='display:block;'>
+    <br><br><br><br>
+    <center>
+    <md-progress-circular
+            class="md-accent" md-diameter="50"></md-progress-circular>
+    </center>
+</div>
         <md-card  ng-repeat="reserva in reservas" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
             <md-card-title>
                 <md-card-title-text>
@@ -31,9 +36,9 @@
             </md-card-title>
 
             <md-card-actions layout="row" layout-align="end center">
+
                 <md-button>ANULAR</md-button>
-                <md-button ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK IN</md-button>
-                <md-button ng-show="reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--light-blue-900">CHECK OUT</md-button>
+                <md-button ng-click="dialogCheckIn(reserva)" ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK IN</md-button>
 
             </md-card-actions>
         </md-card>
@@ -247,3 +252,52 @@
         </form>
     </md-dialog>
 </script>
+        <script type="text/ng-template" id="dialogCheckIn">
+            <md-dialog  aria-label="Confirmar Check In">
+                <form ng-cloak>
+
+                    <md-toolbar>
+                        <div style="background: #795548 ; width: 1000px;" class=" md-toolbar-tools">
+                            <h2>Confirmar Check In</h2>
+                            <span flex></span>
+
+                            <md-button class="md-icon-button" ng-click="cancel()">
+                                X <md-icon  aria-label="Close dialog"></md-icon>
+                            </md-button>
+
+                        </div>
+                    </md-toolbar>
+
+                    <md-dialog-content>
+
+                        <div class="md-dialog-content" >
+
+
+
+
+
+
+
+                        </div>
+
+
+                    </md-dialog-content>
+
+                    <md-dialog-actions layout="row">
+                        <md-button ng-click="cancel()" class="md-primary">
+                            Cancelar
+                        </md-button>
+
+                        <div   >
+
+                        </div>
+
+                        <md-button type="submit" ng-click="guardarReserva(reserva,fechaInicio,fechaFin)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        Confirmar
+                        </md-button>
+
+                    </md-dialog-actions>
+
+                </form>
+            </md-dialog>
+        </script>

@@ -20,11 +20,35 @@ angular.module('myApp.view1', ['ngRoute'])
             var buscarReservas = firebase.database().ref().child('reservas');
             var buscarReservasER = $firebaseArray(buscarReservas);
             buscarReservasER.$loaded().then(function () {
-                $scope.reservas = buscarReservasER;
-                console.log($scope.reservas);
-
+                $scope.Allreservas = buscarReservasER;
+                console.log($scope.Allreservas);
+                $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
+                document.getElementById('BarraCargando').style.display = 'none';
 
             });
+
+            var getReservas = function (value, index, array) {
+                // var currentDay = new Date().getTime();
+                var checkIn = false;
+                // if (currentDay < value.toHour){
+                if (checkIn == value.checkIn) {
+                    return true;
+                }
+                //}
+                else{
+                    firebase.database().ref('reservas/'+value.$id).update({
+                        anulada:true,
+                        }
+
+                    )
+                    return false;
+
+                }
+
+            }
+
+
+
 
             var buscarHabitaciones = firebase.database().ref().child('habitaciones');
             var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
@@ -35,12 +59,24 @@ angular.module('myApp.view1', ['ngRoute'])
 
             });
 
+            var buscarRecepcionistas = firebase.database().ref().child('recepcionistas');
+            var buscarRecepcionistasER = $firebaseArray(buscarRecepcionistas);
+            buscarRecepcionistasER.$loaded().then(function () {
+                $scope.recepcionistas = buscarRecepcionistasER;
+                console.log($scope.recepcionistas);
+
+
+            });
+
+
             $scope.getHabitacion = function (habitacionId) {
                 if (habitacionId) {
                     var habitacionKey = Object.keys(habitacionId)[0];
                     return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
                 }
-            }
+            };
+
+
 
 
             $scope.goReserva = function() {
@@ -58,7 +94,31 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
 
+            $scope.dialogCheckIn = function (reserva) {
+                $mdDialog.show({
+                    controller: DialogControllerCheckIn,
+                    templateUrl: 'dialogCheckIn',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        reservaSelect : reserva,
+                    }
+                })
+            };
 
+            function DialogControllerCheckIn($scope, $mdDialog,reservaSelect) {
+                $scope.reservaSelect = reservaSelect;
+                console.log( $scope.reservaSelect);
+
+                $scope.hide = function() {
+                    $mdDialog.hide();
+                };
+
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+
+                };
+            }
 
 
             $scope.dialogAgregarReserva = function () {
