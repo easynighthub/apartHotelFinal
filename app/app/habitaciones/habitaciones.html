@@ -57,16 +57,16 @@
     <table class="mdl-layout--small-screen-only mdl-cell mdl-cell--12-col mdl-cell--12-col-phone mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
         <thead>
         <tr>
-            <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
+            <th >Habilitado</th>
             <th>Numero Habitacion</th>
             <th>Valor: $ </th>
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
-        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="habitaicon in habitaciones" class="ng-scope">
+        <!-- ngRepeat: vehiculos in vehiculos --><tbody  ng-repeat="habitacion in habitaciones" class="ng-scope">
     <tr>
 
-        <td class="mdl-data-table__cell--non-numeric">
+        <td class="">
             <i ng-show="habitacion.visible == false" ng-click="validar(habitacion)" aria-hidden="true" role="button" tabindex="0" class="ng-hide">
                 <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                     <i class="material-icons">close</i>
@@ -78,8 +78,8 @@
                 </button>
             </i>
         </td>
-        <td class="ng-binding">{{habitacion.numeroHabitacion}}</td>
-        <td> <i class="material-icons">edit_mode</i>
+        <td ng-click="editarHabitacion(habitacion)" >{{habitacion.numeroHabitacion}}</td>
+        <td ng-click="editarHabitacion(habitacion)" > {{habitacion.valor}}
 
         </td>
 

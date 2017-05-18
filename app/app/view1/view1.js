@@ -23,6 +23,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 $scope.Allreservas = buscarReservasER;
                 console.log($scope.Allreservas);
                 $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
+                $scope.reservasFiltradas =   $scope.reservas;
                 document.getElementById('BarraCargando').style.display = 'none';
 
             });
@@ -36,15 +37,26 @@ angular.module('myApp.view1', ['ngRoute'])
                 }
                 //}
                 else{
-                    firebase.database().ref('reservas/'+value.$id).update({
+                  /*  firebase.database().ref('reservas/'+value.$id).update({
                         anulada:true,
                         }
 
-                    )
+                    ) */
                     return false;
 
                 }
 
+            }
+
+            $scope.buscarPorNombre = function () {
+                $scope.reservas = $filter('filter')($scope.reservasFiltradas, {nameCliente: $scope.filterNameInput});
+            }
+            $scope.buscarPorHabitacion = function () {
+                $scope.reservas = $filter('filter')($scope.reservasFiltradas, {dni: $scope.filterNameDniInput});
+                console.log($scope.filterNameDniInput);
+                if($scope.filterNameDniInput == null){
+                    $scope.reservas =    $scope.reservasFiltradas;
+                }
             }
 
 

@@ -1,4 +1,18 @@
 
+
+<div layout-gt-sm="row">
+    <md-input-container  class="md-block" flex-gt-sm>
+        <label>Buscar por Nombre :</label>
+        <input type="text" ng-model="filterNameInput" ng-keyup="buscarPorNombre()">
+    </md-input-container>
+
+    <md-input-container  class="md-block" flex-gt-sm>
+        <label> Buscar por DNI :</label>
+        <input type="number" ng-model="filterNameDniInput" ng-keyup="buscarPorHabitacion()" >
+    </md-input-container>
+</div>
+
+
 <div id="BarraCargando" style='display:block;'>
     <br><br><br><br>
     <center>
@@ -66,30 +80,6 @@
 
 
 
-<center>
-<button class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    <i class="material-icons" style="vertical-align: middle;">dashboard</i>
-    Pantalla General
-</button>
-    <br>
-<button ng-click="goEmpresa()" class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-        <i class="material-icons" style="vertical-align: middle;">add</i>
-        Ver Empresas
-</button>
-    <br>
-<button ng-click="goHabitacion()" class=" mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    <i class="material-icons" style="vertical-align: middle;">home</i>  Habitaciones
-</button>
-    <br>
-<button class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    Check In <div class="material-icons mdl-badge mdl-badge--overlap" data-badge="  ">done</div>
-</button>
-    <br>
-<button class="mdl-cell mdl-cell--3-col mdl-cell--12-col-phone mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-    Check Out <div class="material-icons mdl-badge mdl-badge--overlap" data-badge="5">done_all</div>
-</button>
-</center>
-
 
 
 
@@ -144,7 +134,7 @@
                             <md-input-container class="mdl-cell  mdl-cell--12-col-phone  mdl-cell--12-col-tablet" >
                                 <label>Numero Habitacion </label>
                                 <md-select required=""  class=" musicalSelec" ng-model="reserva.habitacionId">
-                                    <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.id" ng-repeat="habitacion in habitaciones"
+                                    <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.$id" ng-repeat="habitacion in habitaciones"
                                                 ng-show="habitacion.visible == true">{{habitacion.numeroHabitacion}}
                                     </md-option>
                                 </md-select>

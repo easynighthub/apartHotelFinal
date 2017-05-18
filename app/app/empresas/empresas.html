@@ -19,7 +19,7 @@
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
-        <!-- ngRepeat: clientes in clientes --><tbody ng-repeat="empresa in empresas" class="ng-scope" ng-click="editarEmpresa(empresa)">
+        <!-- ngRepeat: clientes in clientes --><tbody ng-repeat="empresa in empresas" class="ng-scope" >
 
     <tr>
 
@@ -63,12 +63,12 @@
         <thead>
         <tr>
             <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
-            <th>Nombre</th>
-            <th>Accion</th>
+            <th class="mdl-data-table__cell--non-numeric">Nombre</th>
+            <th class="mdl-data-table__cell--non-numeric">Rut</th>
             <!--	<th>Ingresos validados</th> -->
         </tr>
         </thead>
-        <!-- ngRepeat: vehiculos in vehiculos --><tbody ng-repeat="empresa in empresas" class="ng-scope">
+        <!-- ngRepeat: vehiculos in vehiculos --><tbody   ng-repeat="empresa in empresas" class="ng-scope">
     <tr>
 
         <td class="mdl-data-table__cell--non-numeric">
@@ -83,8 +83,9 @@
                 </button>
             </i>
         </td>
-        <td class="ng-binding">{{empresa.name}}</td>
-        <td> <i class="material-icons">edit_mode</i>
+        <td ng-click="editarEmpresa(empresa)" class="mdl-data-table__cell--non-numeric">{{empresa.name}}</td>
+
+        <td  ng-click="editarEmpresa(empresa)" class="mdl-data-table__cell--non-numeric">{{empresa.rut}}</td>
 
         </td>
 
