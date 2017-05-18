@@ -11,8 +11,9 @@
     <link rel="stylesheet" href="app/css/login.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.brown-orange.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 </head>
 <body>
 
@@ -34,8 +35,15 @@
                     <input id="check" type="checkbox" class="check" checked>
                     <label for="check"><span class="icon"></span> Recordar mi contraseña?</label>
                 </div>
+                <div id="BarraCargando" style='display:none;'>
+                    <br>
+                    <center>
+                        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                    </center>
+                </div>
+
                 <div class="group">
-                    <input id="signIn" class="button" value="Ingresar">
+                    <button id="signIn" class="button" value="">Ingresar </button>
                 </div>
                 <div class="hr"></div>
                 <div class="foot-lnk">
@@ -73,6 +81,7 @@
 
 
 <script src="index.js"></script>
+<script src="app/components/js/jquery-3.1.1.js"></script>
 <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
 <script>
     // Initialize Firebase

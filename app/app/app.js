@@ -13,10 +13,31 @@ angular.module('myApp', [
     'myApp.agregarHabitacion',
     'myApp.habitaciones',
 ]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+config(['$locationProvider', '$routeProvider',
+    function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
+
+        var validateUser = function() {
+            var data;
+            for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+                var str = localStorage.key(i);
+                var patt = new RegExp('firebase:authUser:');
+                if(patt.test(str)){
+                    window.currenUser = JSON.parse(localStorage.getItem(str));
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        if(validateUser()) {
+          $routeProvider.otherwise({redirectTo: '/view1'});
+        } else {
+            window.location.href = '/';
+            alert("AUN NO INICIAS SECIÓN ")
+        }
+
 
 
 }]);
