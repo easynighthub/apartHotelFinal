@@ -25,73 +25,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
                 $scope.reservasFiltradas =   $scope.reservas;
                 document.getElementById('BarraCargando').style.display = 'none';
-                $scope.simulateQuery = false;
-                $scope.isDisabled    = false;
-
-                $scope.repos         = loadAll();
-                $scope.querySearch   = querySearch;
-                $scope.selectedItemChange = selectedItemChange;
-                $scope.searchTextChange   = searchTextChange;
-
-                // ******************************
-                // Internal methods
-                // ******************************
-
-                /**
-                 * Search for repos... use $timeout to simulate
-                 * remote dataservice call.
-                 */
-                function querySearch (query) {
-                    var results = query ? $scope.repos.filter( createFilterFor(query) ) : $scope.repos,
-                        deferred;
-                    if ($scope.simulateQuery) {
-                        deferred = $q.defer();
-                        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-                        return deferred.promise;
-                    } else {
-                        return results;
-                    }
-                }
-
-                function searchTextChange(text) {
-                    $log.info('Text changed to ' + text);
-                }
-
-                function selectedItemChange(item) {
-                    $log.info('Item changed to ' + JSON.stringify(item));
-                }
-
-                /**
-                 * Build `components` list of key/value pairs
-                 */
-                function loadAll() {
-                    var repos = $scope.reservas;
-
-                    console.log(repos);
-                    return repos.map( function (repo) {
-                        repo.value = repo.nameCliente.toLowerCase();
-                        return repo;
-                    });
-                }
-
-                /**
-                 * Create filter function for a query string
-                 */
-                function createFilterFor(query) {
-                    var lowercaseQuery = angular.lowercase(query);
-
-                    return function filterFn(item) {
-                        return (item.value.indexOf(lowercaseQuery) === 0);
-                    };
-
-                }
-
-
             });
-
-
-
-
 
             var getReservas = function (value, index, array) {
                 // var currentDay = new Date().getTime();
@@ -100,17 +34,9 @@ angular.module('myApp.view1', ['ngRoute'])
                 if (checkIn == value.checkIn) {
                     return true;
                 }
-                //}
                 else{
-                  /*  firebase.database().ref('reservas/'+value.$id).update({
-                        anulada:true,
-                        }
-
-                    ) */
                     return false;
-
                 }
-
             }
 
             $scope.buscarPorNombre = function () {
@@ -199,12 +125,33 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
             $scope.dialogAgregarReserva = function () {
-
+                $scope.titulo ="Agregar Reserva";
                 $mdDialog.show({
                     controller: DialogController,
                     templateUrl: 'dialogAgregarReserva',
                     parent: angular.element(document.body),
-                    clickOutsideToClose:true
+                    clickOutsideToClose:true,
+                    locals : {
+                        reservaSelect : "",
+                        titulo : $scope.titulo
+                    }
+                })
+
+
+
+            };
+            $scope.dialogEditarReserva = function (reserva) {
+                $scope.titulo ="Editar Reserva";
+                var editarReservaSelect = reserva;
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'dialogAgregarReserva',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        reservaSelect : editarReservaSelect,
+                        titulo : $scope.titulo
+                    }
                 })
 
 
@@ -212,32 +159,150 @@ angular.module('myApp.view1', ['ngRoute'])
             };
 
 
-            function DialogController($scope, $mdDialog) {
-                $scope.reserva =[];
-                $scope.habitaciones = [];
-                $scope.totalDias = 0;
-                $scope.reserva.price = 0;
-                $scope.fechaHoy = new Date();
-                $scope.userEncontrados = [];
+
+            function DialogController($scope, $mdDialog,$timeout, $q, $log, reservaSelect,titulo) {
+                $scope.titulo = titulo;
+                console.log(reservaSelect);
+
+                if(reservaSelect == ""){
+                    $scope.reserva =[];
+                    $scope.habitaciones = [];
+                    $scope.totalDias = 0;
+                    $scope.reserva.price = 0;
+                    $scope.fechaHoy = new Date();
+                    $scope.userEncontrados = [];
 
 
-                var buscarHabitaciones = firebase.database().ref().child('habitaciones');
-                var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
-                buscarHabitacionesER.$loaded().then(function () {
-                    $scope.habitaciones = buscarHabitacionesER;
-                    console.log($scope.habitaciones);
+                    var buscarHabitaciones = firebase.database().ref().child('habitaciones');
+                    var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
+                    buscarHabitacionesER.$loaded().then(function () {
+                        $scope.habitaciones = buscarHabitacionesER;
+                        $scope.simulateQuery = false;
+                        $scope.isDisabled    = false;
+                        $scope.repos         = loadAll();
+                        $scope.querySearch   = querySearch;
+                        $scope.selectedItemChange = selectedItemChange;
+                        $scope.searchTextChange   = searchTextChange;
+                        function querySearch (query) {
+                            var results = query ? $scope.repos.filter( createFilterFor(query) ) : $scope.repos,
+                                deferred;
+                            if ($scope.simulateQuery) {
+                                deferred = $q.defer();
+                                $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+                                return deferred.promise;
+                            } else {
+                                return results;
+                            }
+                        }
+
+                        function searchTextChange(text) {
+                            $log.info('Text changed to ' + text);
+                        }
+
+                        function selectedItemChange(item) {
+                            $log.info('Item changed to ' + JSON.stringify(item));
+                            $scope.reserva.habitacionId = item;
+
+                        }
+
+                        /**
+                         * Build `components` list of key/value pairs
+                         */
+                        function loadAll() {
+                            var repos = $scope.habitaciones;
+                            return repos.map( function (repo) {
+                                repo.value = repo.numeroHabitacion.toLowerCase();
+                                return repo;
+                            });
+                        }
+
+                        /**
+                         * Create filter function for a query string
+                         */
+                        function createFilterFor(query) {
+                            var lowercaseQuery = angular.lowercase(query);
+
+                            return function filterFn(item) {
+                                return (item.value.indexOf(lowercaseQuery) === 0);
+                            };
+
+                        }
 
 
-                });
 
-                $scope.empresas = [];
-                var buscarEmpresas = firebase.database().ref().child('company');
-                var buscarEmpresasER = $firebaseArray(buscarEmpresas);
-                buscarEmpresasER.$loaded().then(function () {
-                    $scope.empresas = buscarEmpresasER;
-                    console.log($scope.empresas);
+                    });
 
-                });
+                    $scope.empresas = [];
+                    var buscarEmpresas = firebase.database().ref().child('company');
+                    var buscarEmpresasER = $firebaseArray(buscarEmpresas);
+                    buscarEmpresasER.$loaded().then(function () {
+                        $scope.empresas = buscarEmpresasER;
+
+                        $scope.simulateQueryEmpresa = false;
+                        $scope.isDisabledEmpresa    = false;
+                        $scope.reposEmpresa         = loadAllEmpresa();
+                        $scope.querySearchEmpresa   = querySearchEmpresa;
+                        $scope.selectedItemChangeEmpresa = selectedItemChangeEmpresa;
+                        $scope.searchTextChangeEmpresa   = searchTextChangeEmpresa;
+                        function querySearchEmpresa (queryEmpresa) {
+                            var resultsEmpresa = queryEmpresa ? $scope.reposEmpresa.filter( createFilterForEmpresa(queryEmpresa) ) : $scope.reposEmpresa,
+                                deferredEmpresa;
+                            if ($scope.simulateQueryEmpresa) {
+                                deferredEmpresa = $q.defer();
+                                $timeout(function () { deferredEmpresa.resolve( results ); }, Math.random() * 1000, false);
+                                return deferredEmpresa.promise;
+                            } else {
+                                return resultsEmpresa;
+                            }
+                        }
+
+                        function searchTextChangeEmpresa(textEmpresa) {
+                            $log.info('Text changed to ' + textEmpresa);
+                        }
+
+                        function selectedItemChangeEmpresa(itemEmpresa) {
+                            $log.info('Item changed to ' + JSON.stringify(itemEmpresa));
+                            $scope.reserva.empresaId = itemEmpresa;
+                        }
+
+                        /**
+                         * Build `components` list of key/value pairs
+                         */
+                        function loadAllEmpresa() {
+                            var reposEmpresa = $scope.empresas;
+
+                            return reposEmpresa.map( function (repoEmpresa) {
+                                repoEmpresa.value = repoEmpresa.name.toLowerCase();
+                                return repoEmpresa;
+                            });
+                        }
+
+                        /**
+                         * Create filter function for a query string
+                         */
+                        function createFilterForEmpresa(queryEmpresa) {
+                            var lowercaseQueryEmpresa = angular.lowercase(queryEmpresa);
+
+                            return function filterFnEmpresa(itemEmpresa) {
+                                return (itemEmpresa.value.indexOf(lowercaseQueryEmpresa) === 0);
+                            };
+
+                        }
+
+
+                    });
+
+
+                }
+                else{
+
+                    $scope.fechaInicio = new Date(reservaSelect.fechaInicio);
+                    $scope.fechaFin = new Date(reservaSelect.fechaFin);
+                    $scope.totalDias = reservaSelect.totalDias;
+                    console.log("codigo para poder editar");
+
+
+                }
 
 
 
@@ -288,11 +353,6 @@ angular.module('myApp.view1', ['ngRoute'])
                             return;
                         }
 
-
-
-
-
-
                         var user = [];
                         var contador = 0;
                         var finConsultas = false;
@@ -331,16 +391,18 @@ angular.module('myApp.view1', ['ngRoute'])
                         $scope.finConsultaFunction = function(){
                             console.log("se ejecuto la consulta final");
     reserva.checkIn = false;
-    reserva.checkOut = false;
+    reserva.anulada = false;
     reserva.fechaInicio = new Date(fechaInicio).getTime();
     reserva.fechaFin = new Date(fechaFin).getTime();
-    reserva.totalDias = parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400000);
+    reserva.totalDias = $scope.totalDias;
+        //parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400000);
     reserva.totalAPagar = reserva.totalDias * reserva.price;
-    reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";
+    reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";  //colocar id logeado
     reserva.dateIn = parseInt(new Date().getTime());
     reserva.userId = user.id;
 
     console.log(reserva);
+
     reserva.id = firebase.database().ref().child('reservas/').push().key; //esto es solo para probar rapido;
 
     user.name = reserva.nameCliente;
@@ -377,17 +439,17 @@ angular.module('myApp.view1', ['ngRoute'])
                     }
                 }
 
-
-                $scope.goPrice = function(habitacion,fechaInicio, fechaFin) {
-                    console.log(habitacion);
-                    $scope.reserva.price = habitacion.valor;
+                $scope.CalcularDiasTotales = function (fechaInicio, fechaFin) {
+                    console.log("calculando");
                     var fechaInicio = new Date(fechaInicio).getTime();
                     var fechaFin = new Date(fechaFin).getTime();
-                    $scope.totalDias = parseInt((fechaFin - fechaInicio  )/86400000);
+                    $scope.totalDias = parseInt((fechaFin - fechaInicio)/86400000);
                     console.log($scope.totalDias);
-                    $scope.totalAPagar = habitacion.valor* $scope.totalDias;
+                };
 
-
+                $scope.goPrice = function() {
+                    console.log($scope.totalDias);
+                    $scope.totalAPagar = $scope.reserva.price * $scope.totalDias;
 
                 }
 
