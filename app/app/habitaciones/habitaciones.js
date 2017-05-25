@@ -75,8 +75,10 @@ angular.module('myApp.habitaciones', ['ngRoute'])
 
 
                 if(habitacionSelect != ""){
+                    console.log(habitacionSelect.numeroHabitacion);
                     $scope.numeroHabitacion =  habitacionSelect.numeroHabitacion;
                     $scope.valor =  habitacionSelect.valor;
+                    $scope.tipo = habitacionSelect.tipo;
                     idSelectHabitacion = habitacionSelect.$id;
                 }
 
@@ -95,7 +97,7 @@ angular.module('myApp.habitaciones', ['ngRoute'])
 
                     $scope.numeroHabitacion = document.getElementById('numeroHabitacion').value;
                     $scope.valor = parseInt(document.getElementById('valor').value);
-
+                    $scope.tipo = document.getElementById('tipo').value;
 
                     if (!$scope.numeroHabitacion) {
 
@@ -105,12 +107,17 @@ angular.module('myApp.habitaciones', ['ngRoute'])
 
                         return;
                     }
+                    if (!$scope.tipo) {
+
+                        return;
+                    }
 
 
                     var habitacion = {
 
                         numeroHabitacion: $scope.numeroHabitacion,
                         valor: $scope.valor,
+                        tipo: $scope.tipo,
                         visible:true,
 
                     };

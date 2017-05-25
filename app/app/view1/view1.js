@@ -12,8 +12,8 @@ angular.module('myApp.view1', ['ngRoute'])
         });
     }])
 
-    .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog',
-        function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog) {
+    .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog','$timeout', '$q', '$log',
+        function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog,$timeout, $q, $log) {
 
             $scope.reservas = [];
 
@@ -25,8 +25,73 @@ angular.module('myApp.view1', ['ngRoute'])
                 $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
                 $scope.reservasFiltradas =   $scope.reservas;
                 document.getElementById('BarraCargando').style.display = 'none';
+                $scope.simulateQuery = false;
+                $scope.isDisabled    = false;
+
+                $scope.repos         = loadAll();
+                $scope.querySearch   = querySearch;
+                $scope.selectedItemChange = selectedItemChange;
+                $scope.searchTextChange   = searchTextChange;
+
+                // ******************************
+                // Internal methods
+                // ******************************
+
+                /**
+                 * Search for repos... use $timeout to simulate
+                 * remote dataservice call.
+                 */
+                function querySearch (query) {
+                    var results = query ? $scope.repos.filter( createFilterFor(query) ) : $scope.repos,
+                        deferred;
+                    if ($scope.simulateQuery) {
+                        deferred = $q.defer();
+                        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+                        return deferred.promise;
+                    } else {
+                        return results;
+                    }
+                }
+
+                function searchTextChange(text) {
+                    $log.info('Text changed to ' + text);
+                }
+
+                function selectedItemChange(item) {
+                    $log.info('Item changed to ' + JSON.stringify(item));
+                }
+
+                /**
+                 * Build `components` list of key/value pairs
+                 */
+                function loadAll() {
+                    var repos = $scope.reservas;
+
+                    console.log(repos);
+                    return repos.map( function (repo) {
+                        repo.value = repo.nameCliente.toLowerCase();
+                        return repo;
+                    });
+                }
+
+                /**
+                 * Create filter function for a query string
+                 */
+                function createFilterFor(query) {
+                    var lowercaseQuery = angular.lowercase(query);
+
+                    return function filterFn(item) {
+                        return (item.value.indexOf(lowercaseQuery) === 0);
+                    };
+
+                }
+
 
             });
+
+
+
+
 
             var getReservas = function (value, index, array) {
                 // var currentDay = new Date().getTime();

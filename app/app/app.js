@@ -12,6 +12,7 @@ angular.module('myApp', [
     'myApp.empresas',
     'myApp.agregarHabitacion',
     'myApp.habitaciones',
+
 ]).
 config(['$locationProvider', '$routeProvider',
     function($locationProvider, $routeProvider) {

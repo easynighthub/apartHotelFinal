@@ -12,6 +12,7 @@
             <th class="mdl-data-table__cell--non-numeric">Habilitado</th>
             <th class="mdl-data-table__cell--non-numeric">Numero de Habitacion</th>
             <th class="mdl-data-table__cell--non-numeric">Valor: $</th>
+            <th class="mdl-data-table__cell--non-numeric">Tipo </th>
             <th class="mdl-data-table__cell--non-numeric">Acciones</th>
             <!--	<th>Ingresos validados</th> -->
         </tr>
@@ -35,7 +36,7 @@
         <td class="mdl-data-table__cell--non-numeric">{{habitacion.numeroHabitacion}}</td>
         <td class="mdl-data-table__cell--non-numeric">{{habitacion.valor}}</td>
 
-
+        <td class="mdl-data-table__cell--non-numeric">{{habitacion.tipo}}</td>
 
         <td class="mdl-data-table__cell--non-numeric">
 
@@ -114,7 +115,7 @@
 
                         <md-input-container class="md-block">
                             <label>Numero Habitacion</label>
-                            <input required="" type="text" class="mdl-textfield__input" id="numeroHabitacion">
+                            <input required="" ng-model="numeroHabitacion" type="text" class="mdl-textfield__input" id="numeroHabitacion">
                             <div ng-message="required">This is required.</div>
                             <div ng-message="md-maxlength">Escriba Numero de Habitacion. Ej:B241</div>
                         </md-input-container>
@@ -122,10 +123,17 @@
 
                         <md-input-container class="md-block">
                             <label>Valor</label>
-                            <input required="" type="number" class="mdl-textfield__input" id="valor">
+                            <input required="" ng-model="valor" type="number" class="mdl-textfield__input" id="valor">
                             <div ng-message="required">This is required.</div>
                             <div ng-message="md-maxlength">Escriba un Valor. Ej:$35.990</div>
                         </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Tipo</label>
+                        <input required="" type="text" ng-model="tipo" class="mdl-textfield__input" id="tipo">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">Simple o Doble</div>
+                    </md-input-container>
 
                 </div>
 
@@ -136,11 +144,7 @@
                     Cancelar
                 </md-button>
 
-                <div  >
-
-                </div>
-
-                <md-button type="submit" ng-click="guardarHabitacion()"  class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <md-button type="submit" ng-click="guardarHabitacion()"  class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                     Guardar
                 </md-button>
             </md-dialog-actions>

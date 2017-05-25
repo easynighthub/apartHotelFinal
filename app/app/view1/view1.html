@@ -1,5 +1,53 @@
+ <div  layout="column" ng-cloak="" class="autocompletedemoCustomTemplate" >
+<md-autocomplete ng-disabled="isDisabled"
+                 md-no-cache="noCache"
+                 md-selected-item="selectedItem"
+                 md-search-text-change="searchTextChange(searchText)"
+                 md-search-text="searchText"
+                 md-selected-item-change="selectedItemChange(item)"
+                 md-items="item in querySearch(searchText)"
+                 md-item-text="item.nameCliente" md-min-length="0"
+                 ng-model="item.$id"
+                 placeholder="Pick an Angular repository" md-menu-class="autocomplete-custom-template">
+    <md-item-template>
+          <span class="item-title">
+          <i class="material-icons " style="vertical-align: middle;">person</i>
+            <span> {{item.nameCliente}} </span>
+          </span>
+        <span class="item-metadata">
+            <span>
+              <strong>{{item.fechaInicio | date:"EEEE d', 'MMMM" }}</strong>
+            </span>
+            <span>
+              <strong>{{getHabitacion(item.habitacionId)}}</strong> Habitacion
+            </span>
+          </span>
+    </md-item-template>
+</md-autocomplete>
+</div>
 
+<style>
 
+    .autocomplete-custom-template li {
+        border-bottom: 1px solid #ccc;
+        height: auto;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        white-space: normal;
+    }
+    .autocomplete-custom-template li:last-child {
+        border-bottom-width: 0;
+    }
+    .autocomplete-custom-template .item-title,
+    .autocomplete-custom-template .item-metadata {
+        display: block;
+        line-height: 2;
+    }
+    .autocomplete-custom-template .item-title md-icon {
+        height: 18px;
+        width: 18px;
+    }
+</style>
 <div layout-gt-sm="row">
     <md-input-container  class="md-block" flex-gt-sm>
         <label>Buscar por Nombre :</label>
