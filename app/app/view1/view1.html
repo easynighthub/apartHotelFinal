@@ -72,7 +72,7 @@
 
             <md-card-actions layout="row" layout-align="end center">
 
-                <md-button>ANULAR</md-button>
+                <md-button ng-click="dialogAnularReserva(reserva)" >ANULAR</md-button>
                 <div flex></div>
                 <md-button ng-click="dialogEditarReserva(reserva)" ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Editar</md-button>
 
@@ -382,3 +382,72 @@
                 </form>
             </md-dialog>
         </script>
+<script type="text/ng-template" id="dialogAnularReserva">
+    <md-dialog  aria-label="Confirmar Check In">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548 ; width: 1000px;" class=" md-toolbar-tools">
+                    <h2>Esta seguro que desea anular ?</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content" style="background: #E0E0E0"  >
+
+
+
+
+
+
+                        <div style="background: white" class="mdl-shadow--4dp">
+
+                            <br>
+                            <center><STRONG>Motivo de anulación</STRONG></center>
+<br>
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
+
+                    <textarea  required="" ng-model="descripcionAnular" md-maxlength="100" rows="3"
+                               md-select-on-focus>
+
+                    </textarea>
+                    </md-input-container>
+
+                        </div>
+
+
+
+
+
+
+
+                </div>
+
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row"   style="background: #E0E0E0">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+                <div>
+
+                </div>
+
+                <md-button  ng-click="Anular(descripcionAnular)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                   Anular
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>

@@ -15,23 +15,34 @@ angular.module('myApp.view1', ['ngRoute'])
     .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog','$timeout', '$q', '$log',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog,$timeout, $q, $log) {
 
+            cargarReservas();
+
             $scope.reservas = [];
 
-            var buscarReservas = firebase.database().ref().child('reservas');
-            var buscarReservasER = $firebaseArray(buscarReservas);
-            buscarReservasER.$loaded().then(function () {
-                $scope.Allreservas = buscarReservasER;
-                console.log($scope.Allreservas);
-                $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
-                $scope.reservasFiltradas =   $scope.reservas;
-                document.getElementById('BarraCargando').style.display = 'none';
-            });
+            var buscarHabitaciones = firebase.database().ref().child('habitaciones');
+            var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
+            var buscarRecepcionistas = firebase.database().ref().child('recepcionistas');
+            var buscarRecepcionistasER = $firebaseArray(buscarRecepcionistas);
+
+            function cargarReservas() {
+    var buscarReservas = firebase.database().ref().child('reservas');
+    var buscarReservasER = $firebaseArray(buscarReservas);
+    buscarReservasER.$loaded().then(function () {
+        $scope.Allreservas = buscarReservasER;
+        console.log($scope.Allreservas);
+        $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
+        $scope.reservasFiltradas =   $scope.reservas;
+        document.getElementById('BarraCargando').style.display = 'none';
+    });
+}
+
 
             var getReservas = function (value, index, array) {
                 // var currentDay = new Date().getTime();
                 var checkIn = false;
+                var anulada = false;
                 // if (currentDay < value.toHour){
-                if (checkIn == value.checkIn) {
+                if (checkIn == value.checkIn && anulada == value.anulada) {
                     return true;
                 }
                 else{
@@ -50,11 +61,12 @@ angular.module('myApp.view1', ['ngRoute'])
                 }
             }
 
+            buscarRecepcionistasER.$loaded().then(function () {
+                $scope.recepcionistas = buscarRecepcionistasER;
+                console.log($scope.recepcionistas);
 
 
-
-            var buscarHabitaciones = firebase.database().ref().child('habitaciones');
-            var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
+            });
             buscarHabitacionesER.$loaded().then(function () {
                 $scope.habitaciones = buscarHabitacionesER;
                 console.log($scope.habitaciones);
@@ -62,41 +74,21 @@ angular.module('myApp.view1', ['ngRoute'])
 
             });
 
-            var buscarRecepcionistas = firebase.database().ref().child('recepcionistas');
-            var buscarRecepcionistasER = $firebaseArray(buscarRecepcionistas);
-            buscarRecepcionistasER.$loaded().then(function () {
-                $scope.recepcionistas = buscarRecepcionistasER;
-                console.log($scope.recepcionistas);
-
-
-            });
-
-
             $scope.getHabitacion = function (habitacionId) {
                 if (habitacionId) {
                     var habitacionKey = Object.keys(habitacionId)[0];
                     return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
                 }
             };
-
-
-
-
             $scope.goReserva = function() {
                 location.href = "#!/agregarReserva";
             }
-
-
             $scope.goEmpresa = function() {
                 location.href = "#!/empresas";
             }
-
             $scope.goHabitacion = function() {
                 location.href = "#!/habitaciones";
             }
-
-
-
             $scope.dialogCheckIn = function (reserva) {
                 $mdDialog.show({
                     controller: DialogControllerCheckIn,
@@ -108,22 +100,6 @@ angular.module('myApp.view1', ['ngRoute'])
                     }
                 })
             };
-
-            function DialogControllerCheckIn($scope, $mdDialog,reservaSelect) {
-                $scope.reservaSelect = reservaSelect;
-                console.log( $scope.reservaSelect);
-
-                $scope.hide = function() {
-                    $mdDialog.hide();
-                };
-
-                $scope.cancel = function() {
-                    $mdDialog.cancel();
-
-                };
-            }
-
-
             $scope.dialogAgregarReserva = function () {
                 $scope.titulo ="Agregar Reserva";
                 $mdDialog.show({
@@ -157,9 +133,57 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
             };
+            $scope.dialogAnularReserva = function (reserva) {
+                var reservaSelect = reserva;
+                $mdDialog.show({
+                    controller: DialogControllerAnularReserva,
+                    templateUrl: 'dialogAnularReserva',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        reservaSelect : reservaSelect,
+                    }
+                })
+            }
 
+            function DialogControllerCheckIn($scope, $mdDialog,reservaSelect) {
+                $scope.reservaSelect = reservaSelect;
+                console.log( $scope.reservaSelect);
 
+                $scope.hide = function() {
+                    $mdDialog.hide();
+                };
 
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+
+                };
+            }
+            function DialogControllerAnularReserva($scope, $mdDialog,$timeout, $q, $log, reservaSelect) {
+                var reservaSelect = reservaSelect;
+
+                $scope.Anular = function (descripcionAnular) {
+                    var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
+                    ref.update({
+                        anulada : !reservaSelect.visible,
+                        recepcionistaIdAnular: "H9mF3gjuzsb81kNhHjiP6NULfRB3",
+                        descripcionAnular : descripcionAnular,
+                        fechaAnulacion : new Date().getTime()
+                    });
+                    cargarReservas();
+                    $mdDialog.hide();
+                }
+
+                $scope.hide = function() {
+                    $mdDialog.hide();
+                };
+
+                $scope.cancel = function() {
+                    $mdDialog.cancel();
+
+                };
+
+            }
             function DialogController($scope, $mdDialog,$timeout, $q, $log, reservaSelect,titulo) {
                 $scope.titulo = titulo;
                 console.log(reservaSelect);
