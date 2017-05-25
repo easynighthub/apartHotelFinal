@@ -21,6 +21,7 @@
         width: 18px;
     }
 </style>
+
 <div layout-gt-sm="row">
     <md-input-container  class="md-block" flex-gt-sm>
         <label>Buscar por Nombre :</label>
@@ -331,9 +332,7 @@
         </form>
     </md-dialog>
 </script>
-
-
-        <script type="text/ng-template" id="dialogCheckIn">
+<script type="text/ng-template" id="dialogCheckIn">
             <md-dialog  aria-label="Confirmar Check In">
                 <form ng-cloak>
 
@@ -354,7 +353,76 @@
                         <div class="md-dialog-content" >
 
 
+                            <table>
 
+                                    <tr>
+                                        <td>  <i class="material-icons " style="vertical-align: middle;">event</i></td>
+                                        <td> Inicio</td>
+                                        <td>:</td>
+                                        <td>{{reservaSelect.fechaInicio | date:"EEEE d', 'MMMM" }} </td>
+                                    </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">event</i></td>
+                                    <td> Termino</td>
+                                    <td>:</td>
+                                    <td>  {{reservaSelect.fechaFin | date:"EEEE d', 'MMMM" }} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">person</i></td>
+                                    <td> Nombre</td>
+                                    <td>:</td>
+                                    <td> {{reservaSelect.nameCliente}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">email</i></td>
+                                    <td> Correo</td>
+                                    <td>:</td>
+                                    <td>  {{reservaSelect.correoCliente}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">call</i></td>
+                                    <td> Celular</td>
+                                    <td>:</td>
+                                    <td>  {{reservaSelect.celularCliente}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">short_text</i></td>
+                                    <td> Total Dias</td>
+                                    <td>:</td>
+                                    <td>   {{reservaSelect.totalDias}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">attach_money</i></td>
+                                    <td> Precio Diario</td>
+                                    <td>:</td>
+                                    <td>   {{reservaSelect.price}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">attach_money</i></td>
+                                    <td> Total a Pagar</td>
+                                    <td>:</td>
+                                    <td>          {{reservaSelect.totalAPagar}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">hotel</i></td>
+                                    <td> Habitación</td>
+                                    <td>:</td>
+                                    <td>          {{getHabitacion(reservaSelect.habitacionId)}} </td>
+                                </tr>
+
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">business</i></td>
+                                    <td> Empresa </td>
+                                    <td>:</td>
+                                    <td>           {{getEmpresa(reservaSelect.empresaId)}} </td>
+                                </tr>
+                                <tr>
+                                    <td>  <i class="material-icons " style="vertical-align: middle;">assignment</i></td>
+                                    <td> Detalle </td>
+                                    <td>:</td>
+                                    <td>           {{reservaSelect.detalle}} </td>
+                                </tr>
+                            </table>
 
 
 
@@ -373,7 +441,7 @@
 
                         </div>
 
-                        <md-button type="submit" ng-click="guardarReserva(reserva,fechaInicio,fechaFin)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        <md-button type="submit" ng-click="confirmarCheckIn()" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                         Confirmar
                         </md-button>
 

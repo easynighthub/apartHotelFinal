@@ -1,1 +1,20 @@
-<p>This is the partial for view 2.</p>
+<div layout-gt-sm="row">
+    <md-input-container  class="md-block" flex-gt-sm>
+        <label>Buscar por Nombre :</label>
+        <input type="text" ng-model="filterNameInput" ng-keyup="buscarPorNombre()">
+    </md-input-container>
+
+    <md-input-container  class="md-block" flex-gt-sm>
+        <label> Buscar por DNI :</label>
+        <input type="number" ng-model="filterNameDniInput" ng-keyup="buscarPorHabitacion()" >
+    </md-input-container>
+</div>
+
+
+<div id="BarraCargando" style='display:block;'>
+    <br><br><br><br>
+    <center>
+        <md-progress-circular
+                class="md-accent" md-diameter="50"></md-progress-circular>
+    </center>
+</div>
