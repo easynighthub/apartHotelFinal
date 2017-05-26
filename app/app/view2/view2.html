@@ -11,10 +11,51 @@
 </div>
 
 
-<div id="BarraCargando" style='display:block;'>
+ <!--<div id="BarraCargando" style='display:block;'>
     <br><br><br><br>
     <center>
         <md-progress-circular
                 class="md-accent" md-diameter="50"></md-progress-circular>
     </center>
-</div>
+</div> -->
+
+<md-card  ng-repeat="check in checkIn" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
+    <md-card-title>
+        <md-card-title-text>
+            <strong>
+                <i class="material-icons " style="vertical-align: middle;">event</i>
+                {{check.fechaFin | date:"EEEE d', 'MMMM" }}
+            </strong>
+            <strong>
+                <i class="material-icons " style="vertical-align: middle;">person</i>
+                {{check.nameCliente}}
+            </strong>
+            <strong>
+                <i class="material-icons " style="vertical-align: middle;">email</i>
+                {{check.correoCliente}}
+            </strong>
+            <strong>
+                <i class="material-icons " style="vertical-align: middle;">assignment</i>
+                {{check.detalle}}</strong>
+        </md-card-title-text>
+        <md-card-title-media>
+            <strong>
+                {{getHabitacion(check.habitacionId)}}
+                <i class="material-icons " style="vertical-align: middle;">hotel</i>
+            </strong>
+
+        </md-card-title-media>
+
+    </md-card-title>
+
+    <md-card-actions layout="row" layout-align="end center">
+
+        <md-button ng-click="dialogAnularReserva(check)" >Descuentos</md-button>
+        <div flex></div>
+
+        <md-button ng-click="dialogEditarReserva(check)" ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Abonar</md-button>
+        <md-button ng-click="dialogCheckIn(check)" ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK OUT</md-button>
+
+
+    </md-card-actions>
+</md-card>

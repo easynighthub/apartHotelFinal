@@ -17,6 +17,7 @@ angular.module('myApp.view2', ['ngRoute'])
 
             $scope.checkIn = [];
             cargarCheckIn();
+
             var buscarHabitaciones = firebase.database().ref().child('habitaciones');
             var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
 
@@ -27,14 +28,15 @@ angular.module('myApp.view2', ['ngRoute'])
             var buscarEmpresasER = $firebaseArray(buscarEmpresas);
 
             function cargarCheckIn() {
-                var buscarReservas = firebase.database().ref().child('reservas');
+                var currentDay = new Date().getTime();
+                var buscarReservas = firebase.database().ref().child('reservas').orderByChild('fechaFin').startAt(currentDay);
                 var buscarReservasER = $firebaseArray(buscarReservas);
                 buscarReservasER.$loaded().then(function () {
                     $scope.allCheckIn = buscarReservasER;
                     console.log($scope.allCheckIn);
                     $scope.checkIn = $filter('filter')($scope.allCheckIn, getCheckIn);
                     $scope.checkInFiltrados =   $scope.checkIn;
-                    document.getElementById('BarraCargando').style.display = 'none';
+                 //   document.getElementById('BarraCargando').style.display = 'none';
                 });
             }
 
@@ -42,7 +44,6 @@ angular.module('myApp.view2', ['ngRoute'])
             var getCheckIn = function (value, index, array) {
                 // var currentDay = new Date().getTime();
                 var checkIn = true;
-                var checkOut = false;
                 // if (currentDay < value.toHour){
                 if (checkIn == value.checkIn) {
                     return true;
@@ -62,5 +63,12 @@ angular.module('myApp.view2', ['ngRoute'])
                     $scope.checkIn =    $scope.checkInFiltrados;
                 }
             }
+
+            $scope.getHabitacion = function (habitacionId) {
+                if (habitacionId) {
+                    var habitacionKey = Object.keys(habitacionId)[0];
+                    return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
+                }
+            };
 
 }]);

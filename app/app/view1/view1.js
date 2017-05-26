@@ -15,8 +15,8 @@ angular.module('myApp.view1', ['ngRoute'])
     .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog','$timeout', '$q', '$log',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog,$timeout, $q, $log) {
 
-            cargarReservas();
 
+            cargarReservas();
             $scope.reservas = [];
 
             var buscarHabitaciones = firebase.database().ref().child('habitaciones');
@@ -33,9 +33,11 @@ angular.module('myApp.view1', ['ngRoute'])
         console.log($scope.Allreservas);
         $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
         $scope.reservasFiltradas =   $scope.reservas;
-        document.getElementById('BarraCargando').style.display = 'none';
+        //     document.getElementById('BarraCargando').style.display = 'none';
     });
-}
+};
+
+
 
 
             var getReservas = function (value, index, array) {
@@ -65,8 +67,6 @@ angular.module('myApp.view1', ['ngRoute'])
             buscarRecepcionistasER.$loaded().then(function () {
                 $scope.recepcionistas = buscarRecepcionistasER;
                 console.log($scope.recepcionistas);
-
-
             });
             buscarHabitacionesER.$loaded().then(function () {
                 $scope.habitaciones = buscarHabitacionesER;
@@ -483,6 +483,7 @@ angular.module('myApp.view1', ['ngRoute'])
         function(s){
             firebase.database().ref('users/' + user.id + '/reservas/' + reserva.id).set(true);
             $mdDialog.hide();
+            cargarReservas();
 
         }, function(e) {
             alert('Error, Intente de Nuevo');
