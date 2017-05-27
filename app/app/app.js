@@ -7,10 +7,7 @@ angular.module('myApp', [
   'ngMaterial',
   'myApp.view1',
   'myApp.view2',
-    'myApp.agregarReserva',
-    'myApp.agregarEmpresa',
     'myApp.empresas',
-    'myApp.agregarHabitacion',
     'myApp.habitaciones',
 
 ]).

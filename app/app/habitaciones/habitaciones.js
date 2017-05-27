@@ -35,6 +35,8 @@ angular.module('myApp.habitaciones', ['ngRoute'])
                 });
             };
 
+
+
             $scope.editarHabitacion = function (habitacion) {
                 var editarHabitacionSelect = habitacion;
                 $scope.titulo =" Editar Habitacion";
@@ -53,6 +55,41 @@ angular.module('myApp.habitaciones', ['ngRoute'])
 
             };
 
+            $scope.editarValor = function (habitacion) {
+                var editarValorSelect = habitacion;
+                $scope.titulo =" Editar Valor";
+
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'editarValor',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        habitacionSelect : editarValorSelect,
+                        titulo : $scope.titulo
+                    }
+                })
+
+
+            };
+
+            $scope.editarTipo = function (habitacion) {
+                var editarTipoSelect = habitacion;
+                $scope.titulo =" Editar Tipo Habitacion";
+
+                $mdDialog.show({
+                    controller: DialogController,
+                    templateUrl: 'agregarHabitacion',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals : {
+                        habitacionSelect : editarTipoSelect,
+                        titulo : $scope.titulo
+                    }
+                })
+
+            };
+
             $scope.agregarHabitacion = function () {
                 $scope.titulo =" Agregar Habitacion";
                 $mdDialog.show({
@@ -66,6 +103,8 @@ angular.module('myApp.habitaciones', ['ngRoute'])
                     }
                 })
             };
+
+
 
 
             function DialogController($scope, $mdDialog, habitacionSelect,titulo) {

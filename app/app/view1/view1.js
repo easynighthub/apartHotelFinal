@@ -39,7 +39,6 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
 
-
             var getReservas = function (value, index, array) {
                 // var currentDay = new Date().getTime();
                 var checkIn = false;
@@ -81,10 +80,18 @@ angular.module('myApp.view1', ['ngRoute'])
 
             $scope.getHabitacion = function (habitacionId) {
                 if (habitacionId) {
-                    var habitacionKey = Object.keys(habitacionId)[0];
+                    var habitacionKey = habitacionId;
                     return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
                 }
             };
+
+            $scope.getEmpresa = function (empresaId) {
+                if (empresaId) {
+                    var empresaKey = empresaId;
+                    return $filter('filter') (buscarEmpresasER, {$id: empresaKey}) [0].name;
+                }
+            }
+
 
             $scope.goReserva = function() {
                 location.href = "#!/agregarReserva";
@@ -92,10 +99,10 @@ angular.module('myApp.view1', ['ngRoute'])
             $scope.goEmpresa = function() {
                 location.href = "#!/empresas";
             }
-
             $scope.goHabitacion = function() {
                 location.href = "#!/habitaciones";
             }
+
             $scope.dialogCheckIn = function (reserva) {
                 $mdDialog.show({
                     controller: DialogControllerCheckIn,
@@ -197,7 +204,26 @@ angular.module('myApp.view1', ['ngRoute'])
                 var reservaSelect = reservaSelect;
 
                 $scope.Anular = function (descripcionAnular) {
-                    var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
+
+
+                /**    var buscarUsers = firebase.database().ref().child('users');
+                    var buscarUsersER = $firebaseArray(buscarUsers);
+                    buscarUsersER.$loaded().then(function () {
+                        $scope.userEncontrados = buscarUsersER;
+                        $scope.userEncontrados.forEach(function (x) {
+                            console.log(x.reservas);
+                    if(x.reservas.$id == reservaSelect.$id){
+                        console.log("asdsadsadasd");
+
+                    }
+
+
+                        });
+                    }); **/ //dejalo aqui lo hare llegando a mi casa voy saliendo para alla dale
+
+
+
+                    /**     var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
                     ref.update({
                         anulada : !reservaSelect.visible,
                         recepcionistaIdAnular: "H9mF3gjuzsb81kNhHjiP6NULfRB3",
@@ -205,7 +231,7 @@ angular.module('myApp.view1', ['ngRoute'])
                         fechaAnulacion : new Date().getTime()
                     });
                     cargarReservas();
-                    $mdDialog.hide();
+                    $mdDialog.hide(); **/
                 }
 
                 $scope.hide = function() {
@@ -218,19 +244,112 @@ angular.module('myApp.view1', ['ngRoute'])
                 };
 
             }
+
+
+
             function DialogController($scope, $mdDialog,$timeout, $q, $log, reservaSelect,titulo) {
                 $scope.titulo = titulo;
                 console.log(reservaSelect);
+                $scope.reserva =[];
+                $scope.habitaciones = [];
+                $scope.totalDias = 0;
+                $scope.reserva.price = 0;
+                $scope.fechaHoy = new Date();
+                $scope.userEncontrados = [];
 
                 if(reservaSelect == ""){
-                    $scope.reserva =[];
-                    $scope.habitaciones = [];
-                    $scope.totalDias = 0;
-                    $scope.reserva.price = 0;
-                    $scope.fechaHoy = new Date();
-                    $scope.userEncontrados = [];
+                    $scope.reserva.id = "";
+                   traerHabitaciones();
+                   traerEmpresas();
+                   traerUsuarios();
+                }
+                else{
+
+                    $scope.fechaInicio = new Date(reservaSelect.fechaInicio);
+                    $scope.fechaFin = new Date(reservaSelect.fechaFin);
+                    $scope.totalDias = reservaSelect.totalDias;
+                    $scope.reserva.price = reservaSelect.price;
+                    $scope.totalAPagar = reservaSelect.totalAPagar;
+                    $scope.reserva.paxCliente = reservaSelect.paxCliente;
+                    $scope.reserva.detalle = reservaSelect.detalle;
+                    $scope.reserva.id = reservaSelect.id;
+                    $scope.reserva.nameCliente = reservaSelect.nameCliente;
+                    console.log($scope.reserva.nameCliente);
 
 
+
+
+                    traerHabitaciones();
+
+
+
+                    var buscarHabitaciones = firebase.database().ref().child('habitaciones');
+                    var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
+                    buscarHabitacionesER.$loaded().then(function () {
+                        $scope.habitaciones = buscarHabitacionesER;
+                        $scope.habitaciones.forEach(function (x) {
+                            if(x.$id == reservaSelect.habitacionId){
+                                console.log("habitacion selecionada" + x.numeroHabitacion);
+                                $scope.searchText = x.numeroHabitacion;
+                                $scope.reserva.habitacionId = x.$id;
+                            }
+
+
+                        });
+                    });
+
+                    console.log("codigo para poder editar");
+
+
+                    traerEmpresas();
+
+                    var buscarEmpresas = firebase.database().ref().child('company');
+                    var buscarEmpresasER = $firebaseArray(buscarEmpresas);
+                    buscarEmpresasER.$loaded().then(function () {
+                        $scope.empresas = buscarEmpresasER;
+                        $scope.empresas.forEach(function (j) {
+                            if(j.$id == reservaSelect.empresaId){
+                                console.log("empresa seleccionada" + j.name);
+                                $scope.searchTextEmpresa = j.name;
+                                $scope.reserva.empresaId = j.$id;
+                                console.log( $scope.reserva.empresaId + "empresa traida y id a guardar")
+                            }
+
+
+                        })
+                    })
+
+
+                    traerUsuarios();
+
+                    var buscarUsuarios = firebase.database().ref().child('users');
+                    var buscarUsuariosER = $firebaseArray(buscarUsuarios);
+                    buscarUsuariosER.$loaded().then(function () {
+                        $scope.usuarios = buscarUsuariosER;
+                        console.log("usuarios  "+ $scope.usuarios);
+
+                        $scope.usuarios.forEach(function (j) {
+                            if(j.$id == reservaSelect.userId){
+                                console.log("usuario seleccionada" + j.name);
+                                $scope.searchTextUsuario= j.name;
+                                $scope.reserva.userId = j.$id;
+                                $scope.reserva.correoCliente = j.correo;
+                                $scope.reserva.celularCliente =j.celular;
+                                $scope.reserva.nameCliente = j.nameCliente;
+                                $scope.reserva.dni =j.dni;
+
+                                console.log( $scope.reserva.userId + "usuario traida y id a guardar")
+                            }
+
+
+                        })
+                    })
+
+
+                }
+
+
+                function traerHabitaciones() {
                     var buscarHabitaciones = firebase.database().ref().child('habitaciones');
                     var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
                     buscarHabitacionesER.$loaded().then(function () {
@@ -290,12 +409,13 @@ angular.module('myApp.view1', ['ngRoute'])
 
                     });
 
+                }
+                function traerEmpresas() {
                     $scope.empresas = [];
                     var buscarEmpresas = firebase.database().ref().child('company');
                     var buscarEmpresasER = $firebaseArray(buscarEmpresas);
                     buscarEmpresasER.$loaded().then(function () {
                         $scope.empresas = buscarEmpresasER;
-
                         $scope.simulateQueryEmpresa = false;
                         $scope.isDisabledEmpresa    = false;
                         $scope.reposEmpresa         = loadAllEmpresa();
@@ -350,68 +470,137 @@ angular.module('myApp.view1', ['ngRoute'])
 
                     });
 
+                }
+                function traerUsuarios() {
+                    $scope.usuarios = [];
+                    var buscarUsuarios = firebase.database().ref().child('users');
+                    var buscarUsuariosER = $firebaseArray(buscarUsuarios);
+                    buscarUsuariosER.$loaded().then(function () {
+                        $scope.usuarios = buscarUsuariosER;
+                        $scope.simulateQueryUsuario = false;
+                        $scope.isDisabledUsuario    = false;
+                        $scope.reposUsuario         = loadAllUsuario();
+                        $scope.querySearchUsuario   = querySearchUsuario;
+                        $scope.selectedItemChangeUsuario = selectedItemChangeUsuario;
+                        $scope.searchTextChangeUsuario   = searchTextChangeUsuario;
+                        function querySearchUsuario (queryUsuario) {
+                            var resultsUsuario = queryUsuario ? $scope.reposUsuario.filter( createFilterForUsuario(queryUsuario) ) : $scope.reposUsuario,
+                                deferredUsuario;
+                            if ($scope.simulateQueryUsuario) {
+                                deferredUsuario= $q.defer();
+                                $timeout(function () { deferredUsuario.resolve( results ); }, Math.random() * 1000, false);
+                                return deferredUsuario.promise;
+                            } else {
+                                return resultsUsuario;
+                            }
+                        }
+
+                        function searchTextChangeUsuario(textUsuario) {
+                            $log.info('Text changed to ' + textUsuario);
+                            $scope.reserva.nameCliente = textUsuario;
+                        }
+
+                        function selectedItemChangeUsuario(itemUsuario) {
+                            $log.info('Item changed to ' + JSON.stringify(itemUsuario));
+                            $scope.reserva.usuarioId = itemUsuario.$id;
+                            $scope.reserva.correoCliente = itemUsuario.correo;
+                            $scope.reserva.celularCliente =itemUsuario.celular;
+                            $scope.reserva.dni =itemUsuario.dni;
+                            $scope.reserva.nameCliente = itemUsuario.name;
+
+                        }
+
+
+                        /**
+                         * Build `components` list of key/value pairs
+                         */
+                        function loadAllUsuario() {
+                            var reposUsuario = $scope.usuarios;
+
+                            return reposUsuario.map( function (repoUsuario) {
+                                repoUsuario.value = repoUsuario.name.toLowerCase();
+                                return repoUsuario;
+                            });
+                        }
+
+                        /**
+                         * Create filter function for a query string
+                         */
+                        function createFilterForUsuario(queryUsuario) {
+                            var lowercaseQueryUsuario = angular.lowercase(queryUsuario);
+
+                            return function filterFnUsuario(itemUsuario) {
+                                return (itemUsuario.value.indexOf(lowercaseQueryUsuario) === 0);
+                            };
+
+                        }
+
+
+                    });
 
                 }
-                else{
-
-                    $scope.fechaInicio = new Date(reservaSelect.fechaInicio);
-                    $scope.fechaFin = new Date(reservaSelect.fechaFin);
-                    $scope.totalDias = reservaSelect.totalDias;
-                    console.log("codigo para poder editar");
-
-
-                }
-
-
 
                 $scope.guardarReserva = function(reserva,fechaInicio, fechaFin){
 
                     if(fechaInicio<fechaFin){
 
-                        if (!$scope.fechaInicio) {
-                            return;
-                        }
-                        if (!$scope.fechaFin) {
-                            return;
-                        }
-                        if (!$scope.reserva.habitacionId) {
-                            return;
-                        }
-                        if (!$scope.reserva.empresaId) {
-                            return;
-                        }
-                        if (!$scope.reserva.price) {
-                            return;
-                        }
-                        if (!$scope.totalDias) {
-                            return;
-                        }
-                        if (!$scope.totalAPagar) {
-                            return;
-                        }
-                        if (!$scope.reserva.nameCliente) {
-                            return;
-                        }
-                        if (!$scope.reserva.correoCliente) {
-                            return;
-                        }
-                        if (!$scope.reserva.celularCliente) {
-                            return;
-                        }
-                        if (!$scope.reserva.paxCliente) {
-                            return;
-                        }
-                        if (!$scope.reserva.dni) {
-                            return;
-                        }
-                        if (!$scope.reserva.detalle) {
-                            return;
-                        }
-                        if (!$scope.reserva.dni) {
-                            return;
-                        }
+                        if (!$scope.fechaInicio){
+                            console.log("falta esta wea 1");
+                        return;
 
-                        var user = [];
+                    }
+                    if (!$scope.fechaFin) {
+                        console.log("falta esta wea 2");
+                        return;
+                    }
+                    if (!$scope.reserva.habitacionId) {
+                        console.log("falta esta wea 3");
+                        return;
+                    }
+                    if (!$scope.reserva.empresaId) {
+                        console.log("falta esta wea 4");
+                        return;
+                    }
+                    if (!$scope.reserva.price) {
+                        console.log("falta esta wea 5");
+                        return;
+                    }
+                    if (!$scope.totalDias) {
+                        console.log("falta esta wea 6");
+                        return;
+                    }
+                    if (!$scope.totalAPagar) {
+                        console.log("falta esta wea 7");
+                        return;
+                    }
+                    if (!$scope.reserva.nameCliente) {
+                        console.log("falta esta wea 8");
+                        return;
+                    }
+                    if (!$scope.reserva.correoCliente) {
+                        console.log("falta esta wea 9");
+                        return;
+                    }
+                    if (!$scope.reserva.celularCliente) {
+                        console.log("falta esta wea 10");
+                        return;
+                    }
+                    if (!$scope.reserva.paxCliente) {
+                        console.log("falta esta wea 11");
+                        return;
+                    }
+                    if (!$scope.reserva.dni) {
+                        console.log("falta esta wea 12");
+                        return;
+                    }
+                    if (!$scope.reserva.detalle) {
+                        console.log("falta esta wea 1");
+                        return;
+                    }
+
+
+
+                    var user = [];
                         var contador = 0;
                         var finConsultas = false;
 
@@ -446,6 +635,12 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
                         });
+
+
+
+
+
+
                         $scope.finConsultaFunction = function(){
                             console.log("se ejecuto la consulta final");
     reserva.checkIn = false;
@@ -461,15 +656,42 @@ angular.module('myApp.view1', ['ngRoute'])
     reserva.userId = user.id;
 
     console.log(reserva);
+        if($scope.reserva.id == ""){
+            reserva.id = firebase.database().ref().child('reservas/').push().key; //esto es solo para probar rapido;
+        }else{
+            console.log("id para editar " + $scope.reserva.id);
+            reserva.id = $scope.reserva.id;
+        }
 
-    reserva.id = firebase.database().ref().child('reservas/').push().key; //esto es solo para probar rapido;
+
 
     user.name = reserva.nameCliente;
     user.correo = reserva.correoCliente;
     user.celular = reserva.celularCliente;
     user.dni = reserva.dni;
 
-    firebase.database().ref('reservas/'+reserva.id).set(reserva);
+    firebase.database().ref('reservas/'+reserva.id).update({
+        anulada:reserva.anulada,
+        celularCliente: reserva.celularCliente,
+        checkIn:reserva.checkIn,
+        checkOut:reserva.checkOut,
+        correoCliente:reserva.correoCliente,
+        dateIn:reserva.dateIn,
+        detalle:reserva.detalle,
+        dni:reserva.dni,
+        empresaId:reserva.empresaId,
+        fechaFin:reserva.fechaFin,
+        fechaInicio:reserva.fechaInicio,
+        habitacionId:reserva.habitacionId,
+        id:reserva.id,
+        nameCliente:reserva.nameCliente,
+        paxCliente:reserva.paxCliente,
+        price:reserva.price,
+        recepcionistaId:reserva.recepcionistaId,
+        totalAPagar:reserva.totalAPagar,
+        totalDias:reserva.totalDias,
+        userId:reserva.userId,
+    });
 
     firebase.database().ref('users/'+user.id).update({
         id:user.id,
@@ -499,12 +721,15 @@ angular.module('myApp.view1', ['ngRoute'])
                     }
                 }
 
+
+
                 $scope.CalcularDiasTotales = function (fechaInicio, fechaFin) {
                     console.log("calculando");
                     var fechaInicio = new Date(fechaInicio).getTime();
                     var fechaFin = new Date(fechaFin).getTime();
                     $scope.totalDias = parseInt((fechaFin - fechaInicio)/86400000);
                     console.log($scope.totalDias);
+                    $scope.reserva.nameCliente = reservaSelect.nameCliente;
                 };
 
                 $scope.goPrice = function() {

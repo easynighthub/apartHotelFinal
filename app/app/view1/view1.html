@@ -165,18 +165,10 @@
                     <br>
                 <center><strong> Datos </strong></center>
                             <div layout-gt-sm="row">
-                 <!--           <md-input-container class="mdl-cell  mdl-cell--12-col-phone  mdl-cell--12-col-tablet" >
-                                <label>Numero Habitacion </label>
-                                <md-select required=""  class=" musicalSelec" ng-model="reserva.habitacionId">
-                                    <md-option  ng-click="goPrice(habitacion,fechaInicio,fechaFin)" class=" music-options" ng-value="habitacion.$id" ng-repeat="habitacion in habitaciones"
-                                                ng-show="habitacion.visible == true">{{habitacion.numeroHabitacion}}
-                                    </md-option>
-                                </md-select>
-
-                            </md-input-container> -->
 
 
-                                <div  layout="column"  class="  mdl-cell mdl-cell--6-col " >
+
+                            <div  layout="column"  class="  mdl-cell mdl-cell--6-col " >
                                     <md-autocomplete
                                                      ng-disabled="isDisabled"
                                                      md-no-cache="noCache"
@@ -197,11 +189,14 @@
           </span>
                                         </md-item-template>
                                     </md-autocomplete>
-
                                 </div>
 
+
+
+
+
                                 <div  layout="column"  class="  mdl-cell mdl-cell--6-col " >
-                                    <md-autocomplete ng-disabled="isDisabledEmpresa"
+                                    <md-autocomplete ng-disabled="isDisabled"
                                                      md-no-cache="noCache"
                                                      md-selected-item="selectedItemEmpresa"
                                                      md-search-text-change="searchTextChangeEmpresa(searchTextEmpresa)"
@@ -215,29 +210,13 @@
                                     >
                                         <md-item-template>
           <span class="item-title">
-          <i class="material-icons"  style="vertical-align: middle;">hotel</i>
+          <i class="material-icons"  style="vertical-align: middle;">business</i>
             <span> {{empresa.name}} </span>
           </span>
                                         </md-item-template>
                                     </md-autocomplete>
 
                                 </div>
-
-
-
-                  <!--          <md-input-container  class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet">
-                                <label>Empresa</label>
-                                <md-select required="" ng-model="reserva.empresaId" >
-                                    <md-option class="ambiente-option" ng-value="false" >
-                                        Sim Empresa
-                                    </md-option>
-                                    <md-option  class="ambiente-option" ng-value="empresa.$id"
-                                                ng-repeat="empresa in empresas">{{empresa.name}}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-
--->
 
 
                  </div>
@@ -271,13 +250,34 @@
                 <center><STRONG>Datos Clientes</STRONG></center><br>
 
                 <div layout-gt-sm="row">
+                    <div  layout="column"  class="  mdl-cell mdl-cell--6-col " >
+                        <md-autocomplete ng-disabled="isDisabled"
+                                         md-no-cache="noCache"
+                                         md-selected-item="selectedItemUsuario"
+                                         md-search-text-change="searchTextChangeUsuario(searchTextUsuario)"
+                                         md-search-text="searchTextUsuario"
+                                         md-selected-item-change="selectedItemChangeUsuario(usuario)"
+                                         md-items="usuario in querySearchUsuario(searchTextUsuario)"
+                                         md-item-text="usuario.name"
+                                         md-min-length="0"
+                                         placeholder="Usuario"
+                                         md-floating-label="Usuario"
+                        >
+                            <md-item-template>
+          <span class="item-title">
+          <i class="material-icons"  style="vertical-align: middle;">business</i>
+            <span> {{usuario.name}} </span>
+          </span>
+                            </md-item-template>
+                        </md-autocomplete>
 
+                    </div>
 
-                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+            <!--        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
                         <label>Nombre </label>
                         <input required="" type="text" ng-model="reserva.nameCliente">
 
-                    </md-input-container>
+                    </md-input-container> -->
 
                     <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
                         <label>Correo </label>

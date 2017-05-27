@@ -34,9 +34,24 @@
             </i>
         </td>
         <td class="mdl-data-table__cell--non-numeric">{{habitacion.numeroHabitacion}}</td>
-        <td class="mdl-data-table__cell--non-numeric">{{habitacion.valor}}</td>
 
-        <td class="mdl-data-table__cell--non-numeric">{{habitacion.tipo}}</td>
+
+        <td class="mdl-data-table__cell--non-numeric">{{habitacion.valor}}
+            <i ng-click="editarValor(habitacion)" aria-hidden="true" role="button" tabindex="0" >
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                </button>
+            </i>
+
+        </td>
+
+
+        <td class="mdl-data-table__cell--non-numeric">{{habitacion.tipo}}
+            <i ng-click="editarTipo(habitacion)" aria-hidden="true" role="button" tabindex="0" >
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                </button>
+            </i>
+
+        </td>
 
         <td class="mdl-data-table__cell--non-numeric">
 
@@ -134,6 +149,55 @@
                         <div ng-message="required">This is required.</div>
                         <div ng-message="md-maxlength">Simple o Doble</div>
                     </md-input-container>
+
+                </div>
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+                <md-button type="submit" ng-click="guardarHabitacion()"  class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Guardar
+                </md-button>
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
+
+
+
+
+<script type="text/ng-template" id="editarValor">
+    <md-dialog  aria-label="Editar Valor Habitacion">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548" class=" md-toolbar-tools">
+                    <h2>{{titulo}}</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content">
+
+                    <md-input-container class="md-block">
+                        <label>Valor</label>
+                        <input required="" ng-model="valor" type="number" class="mdl-textfield__input" id="valor">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">Escriba un Valor. Ej:$35.990</div>
+                    </md-input-container>
+
 
                 </div>
 
