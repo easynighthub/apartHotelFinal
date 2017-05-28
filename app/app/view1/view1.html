@@ -42,6 +42,9 @@
             class="md-accent" md-diameter="50"></md-progress-circular>
     </center>
 </div> -->
+<div layout-gt-sm="row">
+
+
         <md-card  ng-repeat="reserva in reservas" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
             <md-card-title>
                 <md-card-title-text>
@@ -58,13 +61,18 @@
                         {{reserva.correoCliente}}
                     </strong>
                     <strong>
+                        <i class="material-icons " style="vertical-align: middle;">hotel</i>
+                        {{getHabitacion(reserva.habitacionId)}}
+
+                    </strong>
+                    <strong>
                         <i class="material-icons " style="vertical-align: middle;">assignment</i>
                         {{reserva.detalle}}</strong>
+
                 </md-card-title-text>
                 <md-card-title-media>
                     <strong>
-                        {{getHabitacion(reserva.habitacionId)}}
-                        <i class="material-icons " style="vertical-align: middle;">hotel</i>
+
                     </strong>
                     <button  id="booking" ng-show="reserva.empresaId == '-Kl-X2V8WvJ0NuAukYsM'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                         Booking
@@ -92,7 +100,7 @@
             </md-card-actions>
         </md-card>
 
-
+</div>
 
 
 <button ng-click="dialogAgregarReserva()" id="view-source" style="background:#1b001b"
@@ -259,7 +267,8 @@
                 <center><STRONG>Datos Clientes</STRONG></center><br>
 
                 <div layout-gt-sm="row">
-                    <div  layout="column"  class="  mdl-cell mdl-cell--6-col " >
+
+                    <div  layout="column"  class="  mdl-cell mdl-cell--12-col " >
                         <md-autocomplete ng-disabled="isDisabled"
                                          md-no-cache="noCache"
                                          md-selected-item="selectedItemUsuario"
@@ -269,8 +278,8 @@
                                          md-items="usuario in querySearchUsuario(searchTextUsuario)"
                                          md-item-text="usuario.name"
                                          md-min-length="0"
-                                         placeholder="Usuario"
-                                         md-floating-label="Usuario"
+                                         placeholder="Nombre y Apellido "
+                                         md-floating-label="Nombre y Apellido"
                         >
                             <md-item-template>
           <span class="item-title">
@@ -282,13 +291,18 @@
 
                     </div>
 
+                </div>
+
+                    <div layout-gt-sm="row">
+
+
             <!--        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
                         <label>Nombre </label>
                         <input required="" type="text" ng-model="reserva.nameCliente">
 
                     </md-input-container> -->
 
-                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                    <md-input-container  class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
                         <label>Correo </label>
                         <input required="" type="email" ng-model="reserva.correoCliente">
                     </md-input-container>
