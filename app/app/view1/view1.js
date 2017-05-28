@@ -26,18 +26,16 @@ angular.module('myApp.view1', ['ngRoute'])
             var buscarEmpresas = firebase.database().ref().child('company');
             var buscarEmpresasER = $firebaseArray(buscarEmpresas);
             function cargarReservas() {
-    var buscarReservas = firebase.database().ref().child('reservas');
-    var buscarReservasER = $firebaseArray(buscarReservas);
-    buscarReservasER.$loaded().then(function () {
-        $scope.Allreservas = buscarReservasER;
-        console.log($scope.Allreservas);
-        $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
-        $scope.reservasFiltradas =   $scope.reservas;
-        //     document.getElementById('BarraCargando').style.display = 'none';
-    });
-};
-
-
+                    var buscarReservas = firebase.database().ref().child('reservas');
+                    var buscarReservasER = $firebaseArray(buscarReservas);
+                    buscarReservasER.$loaded().then(function () {
+                        $scope.Allreservas = buscarReservasER;
+                        console.log($scope.Allreservas);
+                        $scope.reservas = $filter('filter')($scope.Allreservas, getReservas);
+                        $scope.reservasFiltradas =   $scope.reservas;
+                        //     document.getElementById('BarraCargando').style.display = 'none';
+                    });
+                };
 
             var getReservas = function (value, index, array) {
                 // var currentDay = new Date().getTime();

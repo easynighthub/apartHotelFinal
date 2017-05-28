@@ -66,6 +66,15 @@
                         {{getHabitacion(reserva.habitacionId)}}
                         <i class="material-icons " style="vertical-align: middle;">hotel</i>
                     </strong>
+                    <button  id="booking" ng-show="reserva.empresaId == '-Kl-X2V8WvJ0NuAukYsM'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        Booking
+                    </button>
+                    <button id="empresa"  ng-show="reserva.empresaId != '-Kl-X2V8WvJ0NuAukYsM' && reserva.empresaId != '1'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        Empresa
+                    </button>
+                    <button id="sineMpresa" ng-show="reserva.empresaId == '1'"  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                        Sin Empresa
+                    </button>
 
                 </md-card-title-media>
 
