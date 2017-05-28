@@ -259,6 +259,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
                 if(reservaSelect == ""){
                     $scope.reserva.id = "";
+                    $scope.reserva.userId = "";
                    traerHabitaciones();
                    traerEmpresas();
                    traerUsuarios();
@@ -273,6 +274,7 @@ angular.module('myApp.view1', ['ngRoute'])
                     $scope.reserva.paxCliente = reservaSelect.paxCliente;
                     $scope.reserva.detalle = reservaSelect.detalle;
                     $scope.reserva.id = reservaSelect.id;
+                    $scope.reserva.userId = reservaSelect.userId;
                     $scope.reserva.nameCliente = reservaSelect.nameCliente;
                     console.log($scope.reserva.nameCliente);
 
@@ -610,7 +612,7 @@ angular.module('myApp.view1', ['ngRoute'])
                             $scope.userEncontrados = buscarUsersER;
                             $scope.userEncontrados.forEach(function (x) {
                                 console.log(x);
-                                if(x.correo == reserva.correoCliente){
+                                if(x.$id == reserva.userId){
                                     user.id = x.$id;
                                     contador = 1;
                                     console.log("funciono");
