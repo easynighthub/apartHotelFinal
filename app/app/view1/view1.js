@@ -86,7 +86,7 @@ angular.module('myApp.view1', ['ngRoute'])
             $scope.getEmpresa = function (empresaId) {
                 if (empresaId) {
                     var empresaKey = empresaId;
-                    return $filter('filter') (buscarEmpresasER, {$id: empresaKey}) [0].name;
+                    return $filter('filter') (buscarEmpresasER, {$id: empresaKey})[0].name;
                 }
             }
 
@@ -165,13 +165,13 @@ angular.module('myApp.view1', ['ngRoute'])
 
                 $scope.getHabitacion = function (habitacionId) {
                     if (habitacionId) {
-                        var habitacionKey = Object.keys(habitacionId)[0];
+                        var habitacionKey = habitacionId;
                         return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
                     }
                 };
                 $scope.getEmpresa = function (empresaId) {
                     if (empresaId) {
-                        var empresaKey = Object.keys(empresaId)[0];
+                        var empresaKey = empresaId;
                         return $filter('filter')(buscarEmpresasER, {$id: empresaKey})[0].name;
                     }
                 };
@@ -735,6 +735,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 $scope.goPrice = function() {
                     console.log($scope.totalDias);
                     $scope.totalAPagar = $scope.reserva.price * $scope.totalDias;
+                    $scope.reserva.nameCliente = reservaSelect.nameCliente;
 
                 }
 

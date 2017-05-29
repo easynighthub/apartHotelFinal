@@ -42,32 +42,52 @@
             class="md-accent" md-diameter="50"></md-progress-circular>
     </center>
 </div> -->
-<div layout-gt-sm="row">
+<div class="content-grid mdl-grid">
 
 
-        <md-card  ng-repeat="reserva in reservas" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
+        <md-card   class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-cell--12-col-tablet" ng-repeat="reserva in reservas"  >
             <md-card-title>
                 <md-card-title-text>
-                    <strong>
-                        <i class="material-icons " style="vertical-align: middle;">event</i>
-                        {{reserva.fechaInicio | date:"EEEE d', 'MMMM" }}
-                    </strong>
-                    <strong>
-                        <i class="material-icons " style="vertical-align: middle;">person</i>
-                        {{reserva.nameCliente}}
-                    </strong>
-                        <strong>
-                        <i class="material-icons " style="vertical-align: middle;">email</i>
-                        {{reserva.correoCliente}}
-                    </strong>
-                    <strong>
-                        <i class="material-icons " style="vertical-align: middle;">hotel</i>
-                        {{getHabitacion(reserva.habitacionId)}}
 
-                    </strong>
-                    <strong>
-                        <i class="material-icons " style="vertical-align: middle;">assignment</i>
-                        {{reserva.detalle}}</strong>
+                    <table style="text-align: left">
+                        <tr>
+                            <th> <i class="material-icons " style="vertical-align: middle;">event</i></th>
+                            <th>Desde</th>
+                            <th>:</th>
+                            <th> {{reserva.fechaInicio | date:"EEEE d', 'MMMM" }}</th>
+                        </tr>
+                        <tr>
+                            <th> <i class="material-icons " style="vertical-align: middle;">event</i></th>
+                            <th>Hasta</th>
+                            <th>:</th>
+                            <th> {{reserva.fechaFin | date:"EEEE d', 'MMMM" }}</th>
+                        </tr>
+                        <tr>
+                            <th>  <i class="material-icons " style="vertical-align: middle;">person</i></th>
+                            <th>Nombre </th>
+                            <th>:</th>
+                            <th> {{reserva.nameCliente}}</th>
+                        </tr>
+                        <tr>
+                          <th> <i class="material-icons " style="vertical-align: middle;">email</i></th>
+                            <th>Correo</th>
+                            <th>:</th>
+                            <th>{{reserva.correoCliente}}</th>
+                        </tr>
+                        <tr>
+                            <th>  <i class="material-icons " style="vertical-align: middle;">hotel</i></th>
+                            <th>Habitacion</th>
+                            <th>:</th>
+                            <th> {{getHabitacion(reserva.habitacionId)}}</th>
+                        </tr>
+                        <tr>
+                            <th>  <i class="material-icons " style="vertical-align: middle;">assignment</i></th>
+                            <th>Detalle </th>
+                            <th>:</th>
+                            <th> {{reserva.detalle}}</th>
+                        </tr>
+                    </table>
+
 
                 </md-card-title-text>
                 <md-card-title-media>
