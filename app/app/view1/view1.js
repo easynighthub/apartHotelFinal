@@ -221,7 +221,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
 
-                    /**     var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
+                  var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
                     ref.update({
                         anulada : !reservaSelect.visible,
                         recepcionistaIdAnular: "H9mF3gjuzsb81kNhHjiP6NULfRB3",
@@ -229,7 +229,7 @@ angular.module('myApp.view1', ['ngRoute'])
                         fechaAnulacion : new Date().getTime()
                     });
                     cargarReservas();
-                    $mdDialog.hide(); **/
+                    $mdDialog.hide();
                 }
 
                 $scope.hide = function() {
