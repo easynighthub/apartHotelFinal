@@ -15,17 +15,15 @@ angular.module('myApp.view1', ['ngRoute'])
     .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog','$timeout', '$q', '$log',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog,$timeout, $q, $log) {
 
+            var recepcionista = window.currenUser;
+            console.log(recepcionista);
 
-            cargarReservas();
+
+
             $scope.reservas = [];
 
-            var buscarHabitaciones = firebase.database().ref().child('habitaciones');
-            var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
-            var buscarRecepcionistas = firebase.database().ref().child('recepcionistas');
-            var buscarRecepcionistasER = $firebaseArray(buscarRecepcionistas);
-            var buscarEmpresas = firebase.database().ref().child('company');
-            var buscarEmpresasER = $firebaseArray(buscarEmpresas);
-            function cargarReservas() {
+
+
                     var buscarReservas = firebase.database().ref().child('reservas');
                     var buscarReservasER = $firebaseArray(buscarReservas);
                     buscarReservasER.$loaded().then(function () {
@@ -35,60 +33,72 @@ angular.module('myApp.view1', ['ngRoute'])
                         $scope.reservasFiltradas =   $scope.reservas;
                         //     document.getElementById('BarraCargando').style.display = 'none';
                     });
+                var buscarHabitaciones = firebase.database().ref().child('habitaciones');
+                var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
+                var buscarRecepcionistas = firebase.database().ref().child('recepcionistas');
+                var buscarRecepcionistasER = $firebaseArray(buscarRecepcionistas);
+                var buscarEmpresas = firebase.database().ref().child('company');
+                var buscarEmpresasER = $firebaseArray(buscarEmpresas);
+                buscarRecepcionistasER.$loaded().then(function () {
+                    $scope.recepcionistas = buscarRecepcionistasER;
+                    console.log($scope.recepcionistas);
+                });
+                buscarHabitacionesER.$loaded().then(function () {
+                    $scope.habitaciones = buscarHabitacionesER;
+                    console.log($scope.habitaciones);
+
+
+                });
+                buscarEmpresasER.$loaded().then(function () {
+                    $scope.empresas = buscarEmpresasER;
+                    console.log($scope.empresas);
+                });
+                var getReservas = function (value, index, array) {
+                    // var currentDay = new Date().getTime();
+                    var checkIn = false;
+                    var anulada = false;
+                    // if (currentDay < value.toHour){
+                    if (checkIn == value.checkIn && anulada == value.anulada) {
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
+
+                $scope.buscarPorNombre = function () {
+                    $scope.reservas = $filter('filter')($scope.reservasFiltradas, {nameCliente: $scope.filterNameInput});
+                }
+                $scope.buscarPorHabitacion = function () {
+                    $scope.reservas = $filter('filter')($scope.reservasFiltradas, {dni: $scope.filterNameDniInput});
+                    console.log($scope.filterNameDniInput);
+                    if($scope.filterNameDniInput == null){
+                        $scope.reservas =    $scope.reservasFiltradas;
+                    }
+                }
+                $scope.getHabitacion = function (habitacionId) {
+                    if (habitacionId) {
+                        var habitacionKey = habitacionId;
+                        return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
+                    }
                 };
 
-            var getReservas = function (value, index, array) {
-                // var currentDay = new Date().getTime();
-                var checkIn = false;
-                var anulada = false;
-                // if (currentDay < value.toHour){
-                if (checkIn == value.checkIn && anulada == value.anulada) {
-                    return true;
+                $scope.getEmpresa = function (empresaId) {
+                    if (empresaId) {
+                        var empresaKey = empresaId;
+                        return $filter('filter') (buscarEmpresasER, {$id: empresaKey})[0].name;
+                    }
                 }
-                else{
-                    return false;
-                }
-            }
-
-            $scope.buscarPorNombre = function () {
-                $scope.reservas = $filter('filter')($scope.reservasFiltradas, {nameCliente: $scope.filterNameInput});
-            }
-            $scope.buscarPorHabitacion = function () {
-                $scope.reservas = $filter('filter')($scope.reservasFiltradas, {dni: $scope.filterNameDniInput});
-                console.log($scope.filterNameDniInput);
-                if($scope.filterNameDniInput == null){
-                    $scope.reservas =    $scope.reservasFiltradas;
-                }
-            }
-
-            buscarRecepcionistasER.$loaded().then(function () {
-                $scope.recepcionistas = buscarRecepcionistasER;
-                console.log($scope.recepcionistas);
-            });
-            buscarHabitacionesER.$loaded().then(function () {
-                $scope.habitaciones = buscarHabitacionesER;
-                console.log($scope.habitaciones);
 
 
-            });
-            buscarEmpresasER.$loaded().then(function () {
-                $scope.empresas = buscarEmpresasER;
-                console.log($scope.empresas);
-            });
 
-            $scope.getHabitacion = function (habitacionId) {
-                if (habitacionId) {
-                    var habitacionKey = habitacionId;
-                    return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
-                }
-            };
 
-            $scope.getEmpresa = function (empresaId) {
-                if (empresaId) {
-                    var empresaKey = empresaId;
-                    return $filter('filter') (buscarEmpresasER, {$id: empresaKey})[0].name;
-                }
-            }
+
+
+
+
+
+
 
 
             $scope.goReserva = function() {
@@ -180,11 +190,11 @@ angular.module('myApp.view1', ['ngRoute'])
                     var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
                     ref.update({
                         checkIn : !reservaSelect.checkIn,
-                        recepcionistaIdCheckIn: "H9mF3gjuzsb81kNhHjiP6NULfRB3",
+                        recepcionistaIdCheckIn: recepcionista.uid,
                         fechaCheckIn : new Date().getTime()
                     });
                     console.log(new Date());
-                    cargarReservas();
+                    location.reload();
                     $mdDialog.hide();
                 }
 
@@ -224,11 +234,11 @@ angular.module('myApp.view1', ['ngRoute'])
                   var ref = firebase.database().ref().child("/reservas/").child(reservaSelect.$id);
                     ref.update({
                         anulada : !reservaSelect.visible,
-                        recepcionistaIdAnular: "H9mF3gjuzsb81kNhHjiP6NULfRB3",
+                        recepcionistaIdAnular: recepcionista.uid,
                         descripcionAnular : descripcionAnular,
                         fechaAnulacion : new Date().getTime()
                     });
-                    cargarReservas();
+                    location.reload();
                     $mdDialog.hide();
                 }
 
@@ -280,9 +290,6 @@ angular.module('myApp.view1', ['ngRoute'])
 
 
                     traerHabitaciones();
-
-
-
                     var buscarHabitaciones = firebase.database().ref().child('habitaciones');
                     var buscarHabitacionesER = $firebaseArray(buscarHabitaciones);
                     buscarHabitacionesER.$loaded().then(function () {
@@ -299,8 +306,6 @@ angular.module('myApp.view1', ['ngRoute'])
                     });
 
                     console.log("codigo para poder editar");
-
-
                     traerEmpresas();
 
                     var buscarEmpresas = firebase.database().ref().child('company');
@@ -498,6 +503,7 @@ angular.module('myApp.view1', ['ngRoute'])
                         function searchTextChangeUsuario(textUsuario) {
                             $log.info('Text changed to ' + textUsuario);
                             $scope.reserva.nameCliente = textUsuario;
+                            console.log("esta wea no deberia pasar");
                         }
 
                         function selectedItemChangeUsuario(itemUsuario) {
@@ -507,6 +513,7 @@ angular.module('myApp.view1', ['ngRoute'])
                             $scope.reserva.celularCliente =itemUsuario.celular;
                             $scope.reserva.dni =itemUsuario.dni;
                             $scope.reserva.nameCliente = itemUsuario.name;
+                            $scope.reserva.userId = itemUsuario.$id;
 
                         }
 
@@ -540,7 +547,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
                 }
 
+
                 $scope.guardarReserva = function(reserva,fechaInicio, fechaFin){
+                    console.log(reserva.nameCliente);
 
                     if(fechaInicio<fechaFin){
 
@@ -609,19 +618,22 @@ angular.module('myApp.view1', ['ngRoute'])
                         buscarUsersER.$loaded().then(function () {
                             $scope.userEncontrados = buscarUsersER;
                             $scope.userEncontrados.forEach(function (x) {
-                                console.log(x);
                                 if(x.$id == reserva.userId){
-                                    user.id = x.$id;
-                                    contador = 1;
-                                    console.log("funciono");
-                                    console.log(user.id);
+                                    if(x.name == reserva.nameCliente)
+                                    {
+                                        user.id = x.$id;
+                                        contador = 1;
+                                        console.log("funciono");
+                                        console.log(user.id);
+                                    }
+
                                 }
 
 
                             });
                             if(contador == 1){
                                 console.log("id ya ingresado");
-                                console.log(user.id+"id rescatado para update");
+                                console.log(user.id+" id rescatado para update");
                                 finConsultas = true;
                                 $scope.finConsultaFunction();
 
@@ -651,7 +663,7 @@ angular.module('myApp.view1', ['ngRoute'])
     reserva.totalDias = $scope.totalDias;
         //parseInt((reserva.fechaFin - reserva.fechaInicio  )/86400000);
     reserva.totalAPagar = reserva.totalDias * reserva.price;
-    reserva.recepcionistaId = "H9mF3gjuzsb81kNhHjiP6NULfRB3";  //colocar id logeado
+    reserva.recepcionistaId = recepcionista.uid;  //colocar id logeado
     reserva.dateIn = parseInt(new Date().getTime());
     reserva.userId = user.id;
 
@@ -704,8 +716,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
         function(s){
             firebase.database().ref('users/' + user.id + '/reservas/' + reserva.id).set(true);
+            location.reload();
             $mdDialog.hide();
-            cargarReservas();
+
 
         }, function(e) {
             alert('Error, Intente de Nuevo');

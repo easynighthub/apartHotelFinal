@@ -46,7 +46,18 @@
 
 
         <md-card   class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-cell--12-col-tablet" ng-repeat="reserva in reservas"  >
+            <center><button  id="booking" ng-show="reserva.empresaId == '-Kl-X2V8WvJ0NuAukYsM'" class="mdl-color--light-blue mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Booking
+            </button>
+            <button id="empresa"  ng-show="reserva.empresaId != '-Kl-X2V8WvJ0NuAukYsM' && reserva.empresaId != '1'" class="mdl-color--light-green mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Empresa
+            </button>
+            <button id="sineMpresa" ng-show="reserva.empresaId == '1'"  class="mdl-color--light-orange mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Sin Empresa
+            </button>
+            </center>
             <md-card-title>
+
                 <md-card-title-text>
 
                     <table style="text-align: left">
@@ -91,18 +102,8 @@
 
                 </md-card-title-text>
                 <md-card-title-media>
-                    <strong>
 
-                    </strong>
-                    <button  id="booking" ng-show="reserva.empresaId == '-Kl-X2V8WvJ0NuAukYsM'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                        Booking
-                    </button>
-                    <button id="empresa"  ng-show="reserva.empresaId != '-Kl-X2V8WvJ0NuAukYsM' && reserva.empresaId != '1'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                        Empresa
-                    </button>
-                    <button id="sineMpresa" ng-show="reserva.empresaId == '1'"  class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                        Sin Empresa
-                    </button>
+
 
                 </md-card-title-media>
 
@@ -380,7 +381,7 @@
                 <form ng-cloak>
 
                     <md-toolbar>
-                        <div style="background: #795548 ; width: 1000px;" class=" md-toolbar-tools">
+                        <div style="background: #795548 ; width: 100%;" class=" md-toolbar-tools">
                             <h2>Confirmar Check In</h2>
                             <span flex></span>
 
@@ -480,11 +481,8 @@
                             Cancelar
                         </md-button>
 
-                        <div   >
 
-                        </div>
-
-                        <md-button type="submit" ng-click="confirmarCheckIn()" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                        <md-button type="submit" ng-click="confirmarCheckIn()" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                         Confirmar
                         </md-button>
 
