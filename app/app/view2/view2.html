@@ -22,27 +22,84 @@
 <md-card  ng-repeat="check in checkIn" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
     <md-card-title>
         <md-card-title-text>
-            <strong>
-                <i class="material-icons " style="vertical-align: middle;">event</i>
-                {{check.fechaFin | date:"EEEE d', 'MMMM" }}
-            </strong>
-            <strong>
-                <i class="material-icons " style="vertical-align: middle;">person</i>
-                {{check.nameCliente}}
-            </strong>
-            <strong>
-                <i class="material-icons " style="vertical-align: middle;">email</i>
-                {{check.correoCliente}}
-            </strong>
-            <strong>
-                <i class="material-icons " style="vertical-align: middle;">assignment</i>
-                {{check.detalle}}</strong>
+<div layout="row">
+            <table style="text-align: left">
+    <tr>
+        <th> <i class="material-icons " style="vertical-align: middle;">event</i></th>
+        <th>Desde</th>
+        <th>:</th>
+        <th> {{check.fechaInicio | date:"EEEE d', 'MMMM" }}</th>
+
+    </tr>
+    <tr>
+        <th> <i class="material-icons " style="vertical-align: middle;">event</i></th>
+        <th>Hasta</th>
+        <th>:</th>
+        <th> {{check.fechaFin | date:"EEEE d', 'MMMM" }}</th>
+    </tr>
+    <tr>
+        <th>  <i class="material-icons " style="vertical-align: middle;">person</i></th>
+        <th>Nombre </th>
+        <th>:</th>
+        <th> {{check.nameCliente}}</th>
+    </tr>
+    <tr>
+        <th> <i class="material-icons " style="vertical-align: middle;">email</i></th>
+        <th>Correo</th>
+        <th>:</th>
+        <th>{{check.correoCliente}}</th>
+    </tr>
+    <tr>
+        <th>  <i class="material-icons " style="vertical-align: middle;">hotel</i></th>
+        <th>Habitacion</th>
+        <th>:</th>
+        <th> {{getHabitacion(check.habitacionId)}}</th>
+    </tr>
+    <tr>
+        <th>  <i class="material-icons " style="vertical-align: middle;">assignment</i></th>
+        <th>Detalle </th>
+        <th>:</th>
+        <th> {{check.detalle}}</th>
+    </tr>
+
+        <tr class="mdl-layout--small-screen-only">
+            <th> <i class="material-icons " style="vertical-align: middle;">attach_money</i></th>
+            <th>Valor Diario</th>
+            <th>:</th>
+            <th> {{check.price}}</th>
+
+        </tr>
+        <tr class="mdl-layout--small-screen-only">
+            <th> <i class="material-icons " style="vertical-align: middle;">event</i></th>
+            <th>Total Dias</th>
+            <th>:</th>
+            <th> {{check.totalDias}}</th>
+
+        </tr>
+
+    </table>
+</div>
         </md-card-title-text>
         <md-card-title-media>
-            <strong>
-                {{getHabitacion(check.habitacionId)}}
-                <i class="material-icons " style="vertical-align: middle;">hotel</i>
-            </strong>
+<table class="mdl-layout--large-screen-only" style="text-align: left">
+    <tr>
+        <th> <i class="material-icons " style="vertical-align: middle;">attach_money</i></th>
+        <th>Valor Diario</th>
+        <th>:</th>
+        <th> {{check.price}}</th>
+
+    </tr>
+    <tr>
+        <th> <i class="material-icons " style="vertical-align: middle;">event</i></th>
+        <th>Total Dias</th>
+        <th>:</th>
+        <th> {{check.totalDias}}</th>
+
+    </tr>
+
+</table>
+
+
 
         </md-card-title-media>
 
@@ -50,12 +107,221 @@
 
     <md-card-actions layout="row" layout-align="end center">
 
-        <md-button ng-click="dialogAnularReserva(check)" >Descuentos</md-button>
+        <md-button ng-click="dialogDescuento(check)" >Descuentos</md-button>
         <div flex></div>
 
-        <md-button ng-click="dialogEditarReserva(check)" ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Abonar</md-button>
-        <md-button ng-click="dialogCheckIn(check)" ng-show="!reserva.checkIn" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK OUT</md-button>
+        <md-button ng-click="dialogAbono(check)"  class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Abonar</md-button>
+        <md-button ng-click="dialogCheckOut(check)"  class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">CHECK OUT</md-button>
 
 
     </md-card-actions>
 </md-card>
+
+<script type="text/ng-template" id="dialogDescuento">
+    <md-dialog  aria-label="Confirmar Check In">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548 ; width: 100%;" class=" md-toolbar-tools">
+                    <h2>Descuento</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content" >
+                    <div layout-gt-sm="row">
+                    <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone mdl-cell--12-col-tablet" >
+                        <label>Descuento</label>
+                        <input required=""  type="number" ng-model="descuentoIngresado">
+
+                    </md-input-container>
+                    </div>  <center><STRONG>Motivo del descuento</STRONG></center>
+                    <div layout-gt-sm="row">
+
+                        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
+
+                    <textarea  required="" ng-model="motivoDescuento" md-maxlength="100" rows="2"
+                               md-select-on-focus>
+
+                    </textarea>
+                        </md-input-container>
+                    </div>
+
+
+
+                </div>
+
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+
+                <md-button type="submit" ng-click="confirmarDescuento()" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Confirmar
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
+<script type="text/ng-template" id="dialogAbono">
+    <md-dialog  aria-label="Confirmar Check In">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548 ; width: 100%;" class=" md-toolbar-tools">
+                    <h2>Abono</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content" >
+                    <div layout-gt-sm="row">
+                        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone mdl-cell--12-col-tablet" >
+                            <label>Abonar</label>
+                            <input required=""  type="number" ng-model="abonoIngresado">
+
+                        </md-input-container>
+                    </div>  <center><STRONG>Motivo del descuento</STRONG></center>
+                    <div layout-gt-sm="row">
+
+                        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone md-block">
+
+                    <textarea  required="" ng-model="motivoAbono" md-maxlength="100" rows="2"
+                               md-select-on-focus>
+
+                    </textarea>
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-checkbox  ng-click="obtenerPago('efectivo')" ng-disabled="debito || credito || transferenacia" ng-model="efectivo" aria-label="Checkbox 1">
+                            Efectivo
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerPago('debito')" ng-disabled="efectivo || credito || transferenacia" ng-model="debito" aria-label="Checkbox 1">
+                            Debito
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerPago('credito')"  ng-disabled="debito || efectivo || transferenacia" ng-model="credito" aria-label="Checkbox 1">
+                            Credito
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerPago('transferenacia')" ng-disabled="credito || debito || efectivo"  ng-model="transferenacia" aria-label="Checkbox 1">
+                            transferenacia
+                        </md-checkbox>
+
+                    </div>
+
+
+
+                </div>
+
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+
+                <md-button type="submit" ng-click="confirmarAbono()" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Confirmar
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
+<script type="text/ng-template" id="dialogCheckOut">
+    <md-dialog  aria-label="Confirmar Check In">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #795548 ; width: 100%;" class=" md-toolbar-tools">
+                    <h2>CHECK OUT</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content" >
+
+                    <div class="abonos" layout-gt-sm="row">
+                        <table style="text-align: left">
+                            <tr ng-repeat="abono in abonos">
+                                <th>Abono </th>
+                                <th>:</th>
+                                <th> {{abono.abono}}</th>
+                            </tr>
+                            <tr ng-repeat="descuento in descuentos">
+                                <th>Descuentos </th>
+                                <th>:</th>
+                                <th> {{descuento.descuento}}</th>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-checkbox  ng-click="obtenerPago('efectivo')" ng-disabled="debito || credito || transferenacia" ng-model="efectivo" aria-label="Checkbox 1">
+                            Efectivo
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerPago('debito')" ng-disabled="efectivo || credito || transferenacia" ng-model="debito" aria-label="Checkbox 1">
+                            Debito
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerPago('credito')"  ng-disabled="debito || efectivo || transferenacia" ng-model="credito" aria-label="Checkbox 1">
+                            Credito
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerPago('transferenacia')" ng-disabled="credito || debito || efectivo"  ng-model="transferenacia" aria-label="Checkbox 1">
+                            transferenacia
+                        </md-checkbox>
+
+                    </div>
+
+
+
+                </div>
+
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row">
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+
+                <md-button type="submit" ng-click="confirmarAbono()" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Confirmar
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
+
+

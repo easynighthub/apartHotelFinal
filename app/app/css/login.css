@@ -15,7 +15,7 @@
         text-align: center;
         min-height:670px;
         position:relative;
-        background:url(http://www.santablancaaparthotel.cl/roger/img/slider-img-5.jpg) no-repeat center;
+        background:url(https://firebasestorage.googleapis.com/v0/b/apart-hotel-santa-blanca-9ec9b.appspot.com/o/background.jpg?alt=media&token=1750682c-3acf-4822-b239-42e3b32cd585) no-repeat center;
         box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
     }
     .login-html{
@@ -23,7 +23,7 @@
         height:100%;
         position:absolute;
         padding:90px 70px 50px 70px;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.4);
     }
     .login-html .sign-in-htm,
     .login-html .sign-up-htm{
