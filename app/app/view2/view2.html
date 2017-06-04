@@ -270,21 +270,73 @@
 
                 <div class="md-dialog-content" >
 
-                    <div class="abonos" layout-gt-sm="row">
-                        <table style="text-align: left">
-                            <tr ng-repeat="abono in abonos">
-                                <th>Abono </th>
-                                <th>:</th>
-                                <th> {{abono.abono}}</th>
-                            </tr>
-                            <tr ng-repeat="descuento in descuentos">
-                                <th>Descuentos </th>
-                                <th>:</th>
-                                <th> {{descuento.descuento}}</th>
-                            </tr>
-                        </table>
+                    <table style="text-align: left">
+                        <tr>
+                            <th> </th>
+                            <th>Desde</th>
+                            <th></th>
+                            <th> {{reservaSelect.fechaInicio | date:"EEEE d', 'MMMM" }}</th>
+                            <th> - </th>
+                            <th>hasta</th>
+                            <th></th>
+                            <th> {{reservaSelect.fechaFin | date:"EEEE d', 'MMMM" }}</th>
+                            <th> - </th>
+                            <th>Total de dias</th>
+                            <th>:</th>
+                            <th>{{totalDias}}</th>
+                            <th> - </th>
+                            <th>Valor diario</th>
+                            <th>:</th>
+                            <th>{{reservaSelect.price}}</th>
+                        </tr>
+                    </table>
+                    <style type="text/css">
+                        .tg  {border-collapse:collapse;border-spacing:0;}
+                        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+                        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+                    </style>
+
+                    <table class="tg" style="text-align: left">
+                        <tr>
+                            <th>Descuentos Totales </th>
+                            <th> {{totalDescuentos}}</th>
+                            <th>Abonos Totales </th>
+                            <th>{{totalAbonos}}</th>
+                            <th>Total a pagar </th>
+                            <th>{{totalAPagar}}</th>
+                            <th ng-show="exportacion || electronica" >+ 19% IVA</th>
+                            <th ng-show="exportacion || electronica" >{{totalAPagar*1.19}}</th>
+                            <th ng-show="exportacion || electronica"> Numero de Factura :</th>
+                            <th ng-show="exportacion || electronica"> <input  type="text" ></th>
+
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <th>Tipo de cobro</th>
+
+                        </tr>
+                    </table>
+                    <center>
+
+
+                    <div layout-gt-sm="row">
+
+                        <md-checkbox  ng-click="obtenerTipoDePago('exportacion')" ng-disabled="electronica || sinDocumento " ng-model="exportacion" aria-label="Checkbox 1">
+                            Exportación
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerTipoDePago('electronica')" ng-disabled="sinDocumento || exportacion" ng-model="electronica" aria-label="Checkbox 1">
+                            Electronica
+                        </md-checkbox>
+                        <md-checkbox ng-click="obtenerTipoDePago('sinDocumento')"  ng-disabled="exportacion || electronica" ng-model="sinDocumento" aria-label="Checkbox 1">
+                            Sin Documento
+                        </md-checkbox>
 
                     </div>
+                </center>
+
+
+
                     <div layout-gt-sm="row">
                         <md-checkbox  ng-click="obtenerPago('efectivo')" ng-disabled="debito || credito || transferenacia" ng-model="efectivo" aria-label="Checkbox 1">
                             Efectivo
@@ -314,7 +366,7 @@
                 </md-button>
 
 
-                <md-button type="submit" ng-click="confirmarAbono()" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                <md-button type="submit" ng-click="confirmarCheckOut()" class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                     Confirmar
                 </md-button>
 

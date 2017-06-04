@@ -196,7 +196,15 @@ angular.module('myApp.view2', ['ngRoute'])
             function DialogControllerCheckOut($scope, $mdDialog,reservaSelect) {
                 $scope.reservaSelect = reservaSelect;
                 var pago = "";
-                var totalAbonos;
+                var tipoDePago ="";
+                $scope.totalDias = parseInt((reservaSelect.fechaFin - reservaSelect.fechaInicio)/86400000);
+                console.log("total Dias " + $scope.totalDias);
+                $scope.valorTotal = $scope.totalDias * reservaSelect.price;
+                $scope.totalAbonos =0;
+                $scope.totalDescuentos =0;
+                $scope.totalDocumento = 0;
+                $scope.numeroDeDocumento = 0;
+                $scope.pagado = true;
                 $scope.abonos = [];
                 $scope.descuentos= [];
                 if($scope.reservaSelect.abonos){
@@ -205,10 +213,13 @@ angular.module('myApp.view2', ['ngRoute'])
                     buscarAbonosER.$loaded().then(function () {
                         $scope.abonos = buscarAbonosER;
                         console.log($scope.abonos);
+                        $scope.abonos.forEach(function (x) {
+                            $scope.totalAbonos += x.abono;
 
+                        });
+                      $scope.totalAPagar =  $scope.valorTotal -$scope.totalAbonos;
                 });
                 }
-
                 if($scope.reservaSelect.descuentos){
 
                     var buscarDescuentos = firebase.database().ref('reservas/'+$scope.reservaSelect.$id).child('descuentos');
@@ -216,18 +227,51 @@ angular.module('myApp.view2', ['ngRoute'])
                     buscarDescuentosER.$loaded().then(function () {
                         $scope.descuentos= buscarDescuentosER;
                         console.log($scope.descuentos);
+                        $scope.descuentos.forEach(function (j) {
+                            $scope.totalDescuentos += j.descuento;
+
+                        });
+                        $scope.totalAPagar =  $scope.valorTotal -$scope.totalDescuentos;
 
                     });
 
-
-
+                }
+                if(!$scope.reservaSelect.descuentos && !$scope.reservaSelect.abonos){
+                    $scope.totalAPagar =  $scope.valorTotal;
                 }
 
                 console.log( $scope.reservaSelect);
 
                 $scope.confirmarCheckOut = function () {
+                        if(tipoDePago = 'exportacion' || 'electronica'){
+                            firebase.database().ref('reservas/'+$scope.reservaSelect.$id).update({
+                                checkOut: true,
+                                recepcionistaIdCheckOut:recepcionista.uid,
+                                dateInCheckOut: new Date().getTime(),
+                                tipoDeDocumento : tipoDePago,
+                                pagado :$scope.pagado,
+                                modoDePago : pago,
+                                numeroDeDocumento :  $scope.numeroDeDocumento,
+                                totalDocumento : $scope.totalAPagar,
 
-                };
+                            });
+                        }else
+                        {  firebase.database().ref('reservas/'+$scope.reservaSelect.$id).update({
+                            checkOut: true,
+                            recepcionistaIdCheckOut:recepcionista.uid,
+                            dateInCheckOut: new Date().getTime(),
+                            tipoDeDocumento : tipoDePago,
+                            pagado :$scope.pagado,
+                            modoDePago : pago,
+                            numeroDeDocumento : $scope.numeroDeDocumento,
+                            totalDocumento :$scope.totalAPagar ,
+
+                        });
+
+                        }
+
+
+                                        };
 
 
                 $scope.hide = function() {
@@ -249,6 +293,18 @@ angular.module('myApp.view2', ['ngRoute'])
                     }
 
                     console.log(pago);
+
+                };
+                $scope.obtenerTipoDePago = function (tipoPagoSelecionado) {
+                    if(tipoDePago == tipoPagoSelecionado){
+                        tipoDePago = "";
+
+                    }else
+                    {
+                        tipoDePago = tipoPagoSelecionado;
+                    }
+
+                    console.log(tipoDePago);
 
                 };
 
