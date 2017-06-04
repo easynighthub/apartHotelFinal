@@ -204,7 +204,7 @@ angular.module('myApp.view2', ['ngRoute'])
                 $scope.totalDescuentos =0;
                 $scope.totalDocumento = 0;
                 $scope.numeroDeDocumento = 0;
-                $scope.pagado = true;
+                $scope.documentoPagado = true;
                 $scope.abonos = [];
                 $scope.descuentos= [];
                 if($scope.reservaSelect.abonos){
@@ -243,13 +243,14 @@ angular.module('myApp.view2', ['ngRoute'])
                 console.log( $scope.reservaSelect);
 
                 $scope.confirmarCheckOut = function () {
-                        if(tipoDePago = 'exportacion' || 'electronica'){
+
+                        if(tipoDePago == 'exportacion' || 'electronica'){
                             firebase.database().ref('reservas/'+$scope.reservaSelect.$id).update({
                                 checkOut: true,
                                 recepcionistaIdCheckOut:recepcionista.uid,
                                 dateInCheckOut: new Date().getTime(),
                                 tipoDeDocumento : tipoDePago,
-                                pagado :$scope.pagado,
+                                documentoPagado :$scope.documentoPagado,
                                 modoDePago : pago,
                                 numeroDeDocumento :  $scope.numeroDeDocumento,
                                 totalDocumento : $scope.totalAPagar,
@@ -260,17 +261,16 @@ angular.module('myApp.view2', ['ngRoute'])
                             checkOut: true,
                             recepcionistaIdCheckOut:recepcionista.uid,
                             dateInCheckOut: new Date().getTime(),
-                            tipoDeDocumento : tipoDePago,
-                            pagado :$scope.pagado,
+                            documentoPagado :$scope.documentoPagado,
                             modoDePago : pago,
+                            tipoDeDocumento : tipoDePago,
                             numeroDeDocumento : $scope.numeroDeDocumento,
-                            totalDocumento :$scope.totalAPagar ,
+                            totalDocumento :$scope.totalAPagar,
 
                         });
-
                         }
-
-
+                    $mdDialog.hide();
+                    location.reload();
                                         };
 
 
