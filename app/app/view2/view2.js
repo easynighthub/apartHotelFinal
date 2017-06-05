@@ -205,40 +205,46 @@ angular.module('myApp.view2', ['ngRoute'])
                 $scope.totalDocumento = 0;
                 $scope.numeroDeDocumento = 0;
                 $scope.documentoPagado = true;
+                $scope.pagoFuturo = false;
                 $scope.abonos = [];
                 $scope.descuentos= [];
-                if($scope.reservaSelect.abonos){
+                //if($scope.reservaSelect.abonos){
                     var buscarAbonos = firebase.database().ref('reservas/'+$scope.reservaSelect.$id).child('abonos');
                     var buscarAbonosER = $firebaseArray(buscarAbonos);
                     buscarAbonosER.$loaded().then(function () {
                         $scope.abonos = buscarAbonosER;
                         console.log($scope.abonos);
                         $scope.abonos.forEach(function (x) {
-                            $scope.totalAbonos += x.abono;
-
+                            if(x.habilitado){
+                                $scope.totalAbonos += x.abono;
+                            }
                         });
-                      $scope.totalAPagar =  $scope.valorTotal -$scope.totalAbonos;
+                   //   $scope.totalAPagar =  $scope.valorTotal -$scope.totalAbonos;
                 });
-                }
-                if($scope.reservaSelect.descuentos){
-
+                //};
+              // if($scope.reservaSelect.descuentos){
                     var buscarDescuentos = firebase.database().ref('reservas/'+$scope.reservaSelect.$id).child('descuentos');
                     var buscarDescuentosER = $firebaseArray(buscarDescuentos);
                     buscarDescuentosER.$loaded().then(function () {
                         $scope.descuentos= buscarDescuentosER;
                         console.log($scope.descuentos);
                         $scope.descuentos.forEach(function (j) {
-                            $scope.totalDescuentos += j.descuento;
-
+                            if(j.aceptado){
+                                $scope.totalDescuentos += j.descuento;
+                            }
                         });
-                        $scope.totalAPagar =  $scope.valorTotal -$scope.totalDescuentos;
+                     //   $scope.totalAPagar =  $scope.valorTotal - $scope.totalDescuentos;
 
                     });
+              // };
 
-                }
-                if(!$scope.reservaSelect.descuentos && !$scope.reservaSelect.abonos){
+
+           /*     if(!$scope.reservaSelect.descuentos && !$scope.reservaSelect.abonos){
                     $scope.totalAPagar =  $scope.valorTotal;
-                }
+                }else
+                {
+
+                }*/
 
                 console.log( $scope.reservaSelect);
 
@@ -250,27 +256,27 @@ angular.module('myApp.view2', ['ngRoute'])
                                 recepcionistaIdCheckOut:recepcionista.uid,
                                 dateInCheckOut: new Date().getTime(),
                                 tipoDeDocumento : tipoDePago,
-                                documentoPagado :$scope.documentoPagado,
+                                documentoPagado :!$scope.pagoFuturo,
                                 modoDePago : pago,
                                 numeroDeDocumento :  $scope.numeroDeDocumento,
-                                totalDocumento : $scope.totalAPagar,
-
+                                totalDocumentoPorPagar :$scope.totalAPagar,
+                                totalFactura :$scope.totalFactura,
                             });
                         }else
                         {  firebase.database().ref('reservas/'+$scope.reservaSelect.$id).update({
                             checkOut: true,
                             recepcionistaIdCheckOut:recepcionista.uid,
                             dateInCheckOut: new Date().getTime(),
-                            documentoPagado :$scope.documentoPagado,
+                            documentoPagado :!$scope.pagoFuturo,
                             modoDePago : pago,
                             tipoDeDocumento : tipoDePago,
                             numeroDeDocumento : $scope.numeroDeDocumento,
-                            totalDocumento :$scope.totalAPagar,
+                            totalDocumentoPorPagar :$scope.totalAPagar,
+                            totalFactura :$scope.totalFactura,
 
                         });
                         }
                     $mdDialog.hide();
-                    location.reload();
                                         };
 
 
@@ -298,14 +304,45 @@ angular.module('myApp.view2', ['ngRoute'])
                 $scope.obtenerTipoDePago = function (tipoPagoSelecionado) {
                     if(tipoDePago == tipoPagoSelecionado){
                         tipoDePago = "";
+                        $scope.totalFactura = 0;
 
                     }else
                     {
                         tipoDePago = tipoPagoSelecionado;
+                        if(tipoDePago == 'sinDocumento'){
+                            $scope.totalFactura = $scope.valorTotal;
+                            $scope.totalAPagar =  $scope.totalFactura  - $scope.totalDescuentos- $scope.totalAbonos;
+                            $scope.pagoFuturo = false;
+                        }
+                        if(tipoDePago == 'electronica'){
+                            $scope.totalFactura = $scope.valorTotal*1.19;
+                            $scope.totalAPagar =  $scope.totalFactura  - $scope.totalDescuentos- $scope.totalAbonos;
+                            $scope.pagoFuturo = false;
+                        }
+                        if(tipoDePago == 'exportacion'){
+                            $scope.totalFactura = $scope.valorTotal*1.19;
+                            $scope.totalAPagar =  $scope.totalFactura  - $scope.totalDescuentos- $scope.totalAbonos;
+                            $scope.pagoFuturo = false;
+
+                        }
+
                     }
 
                     console.log(tipoDePago);
 
+                };
+
+                $scope.getHabitacion = function (habitacionId) {
+                    if (habitacionId) {
+                        var habitacionKey = habitacionId;
+                        return $filter('filter')(buscarHabitacionesER, {$id: habitacionKey})[0].numeroHabitacion;
+                    }
+                };
+                $scope.getEmpresa = function (empresaId) {
+                    if (empresaId) {
+                        var empresaKey = empresaId;
+                        return $filter('filter')(buscarEmpresasER, {$id: empresaKey})[0].name;
+                    }
                 };
 
 

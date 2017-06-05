@@ -36,6 +36,14 @@ config(['$locationProvider', '$routeProvider',
             alert("AUN NO INICIAS SECIÓN ")
         }
 
+        var signOutButton = document.getElementById('sign-out-button');
+
+        signOutButton.addEventListener('click', function() {
+            firebase.auth().signOut();
+
+            window.location.href = '/';
+        });
+
 
 
 }]);

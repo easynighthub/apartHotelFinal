@@ -19,7 +19,7 @@
     </center>
 </div> -->
 
-<md-card  ng-repeat="check in checkIn" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
+<md-card ng-show="!check.checkOut && check.checkIn" ng-repeat="check in checkIn" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
     <md-card-title>
         <md-card-title-text>
 <div layout="row">
@@ -270,92 +270,157 @@
 
                 <div class="md-dialog-content" >
 
-                    <table style="text-align: left">
-                        <tr>
-                            <th> </th>
-                            <th>Desde</th>
-                            <th></th>
-                            <th> {{reservaSelect.fechaInicio | date:"EEEE d', 'MMMM" }}</th>
-                            <th> - </th>
-                            <th>hasta</th>
-                            <th></th>
-                            <th> {{reservaSelect.fechaFin | date:"EEEE d', 'MMMM" }}</th>
-                            <th> - </th>
-                            <th>Total de dias</th>
-                            <th>:</th>
-                            <th>{{totalDias}}</th>
-                            <th> - </th>
-                            <th>Valor diario</th>
-                            <th>:</th>
-                            <th>{{reservaSelect.price}}</th>
-                        </tr>
-                    </table>
-                    <style type="text/css">
-                        .tg  {border-collapse:collapse;border-spacing:0;}
-                        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-                        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-                    </style>
-
-                    <table class="tg" style="text-align: left">
-                        <tr>
-                            <th>Descuentos Totales </th>
-                            <th> {{totalDescuentos}}</th>
-                            <th>Abonos Totales </th>
-                            <th>{{totalAbonos}}</th>
-                            <th>Total a pagar </th>
-                            <th>{{totalAPagar}}</th>
-                            <th ng-show="exportacion || electronica" >+ 19% IVA</th>
-                            <th ng-show="exportacion || electronica" >{{totalAPagar*1.19}}</th>
-                            <th ng-show="exportacion || electronica"> Numero de Factura :</th>
-                            <th ng-show="exportacion || electronica"> <input  type="text" ></th>
-
-                        </tr>
-                    </table>
-                    <table>
-                        <tr>
-                            <th>Tipo de cobro</th>
-
-                        </tr>
-                    </table>
-                    <center>
 
 
                     <div layout-gt-sm="row">
+                        <table>
 
-                        <md-checkbox  ng-click="obtenerTipoDePago('exportacion')" ng-disabled="electronica || sinDocumento " ng-model="exportacion" aria-label="Checkbox 1">
-                            Exportación
-                        </md-checkbox>
-                        <md-checkbox ng-click="obtenerTipoDePago('electronica')" ng-disabled="sinDocumento || exportacion" ng-model="electronica" aria-label="Checkbox 1">
-                            Electronica
-                        </md-checkbox>
-                        <md-checkbox ng-click="obtenerTipoDePago('sinDocumento')"  ng-disabled="exportacion || electronica" ng-model="sinDocumento" aria-label="Checkbox 1">
-                            Sin Documento
-                        </md-checkbox>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">event</i></td>
+                                <td> Inicio</td>
+                                <td>:</td>
+                                <td>{{reservaSelect.fechaInicio | date:"EEEE d', 'MMMM" }} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">event</i></td>
+                                <td> Termino</td>
+                                <td>:</td>
+                                <td>  {{reservaSelect.fechaFin | date:"EEEE d', 'MMMM" }} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">person</i></td>
+                                <td> Nombre</td>
+                                <td>:</td>
+                                <td> {{reservaSelect.nameCliente}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">email</i></td>
+                                <td> Correo</td>
+                                <td>:</td>
+                                <td>  {{reservaSelect.correoCliente}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">call</i></td>
+                                <td> Celular</td>
+                                <td>:</td>
+                                <td>  {{reservaSelect.celularCliente}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">short_text</i></td>
+                                <td> Total Dias</td>
+                                <td>:</td>
+                                <td>   {{reservaSelect.totalDias}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">attach_money</i></td>
+                                <td> Precio Diario</td>
+                                <td>:</td>
+                                <td>   {{reservaSelect.price}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">attach_money</i></td>
+                                <td> Total a Pagar</td>
+                                <td>:</td>
+                                <td>          {{reservaSelect.totalAPagar}} - Sin IVA</td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">hotel</i></td>
+                                <td> Habitación</td>
+                                <td>:</td>
+                                <td>          {{getHabitacion(reservaSelect.habitacionId)}} </td>
+                            </tr>
+
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">business</i></td>
+                                <td> Empresa </td>
+                                <td>:</td>
+                                <td>           {{getEmpresa(reservaSelect.empresaId)}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">assignment</i></td>
+                                <td> Detalle </td>
+                                <td>:</td>
+                                <td>           {{reservaSelect.detalle}} </td>
+                            </tr>
+                        </table>
+
+                        <div>
+                            <center>
+                                <style type="text/css">
+                                    .tg  {border-collapse:collapse;border-spacing:0;}
+                                    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+                                    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+                                </style>
+
+                                <table class="tg" style="text-align: left">
+                                    <tr>
+                                        <th>Descuentos Totales </th>
+                                        <th>${{totalDescuentos}}</th>
+                                        <th>Abonos Totales </th>
+                                        <th>${{totalAbonos}}</th>
+                                    </tr>
+                                </table>
+                                <div>
+                                    <br>
+                                    <md-checkbox  ng-click="obtenerTipoDePago('exportacion')" ng-disabled="electronica || sinDocumento " ng-model="exportacion" aria-label="Checkbox 1">
+                                        Exportación
+                                    </md-checkbox>
+                                    <md-checkbox ng-click="obtenerTipoDePago('electronica')" ng-disabled="sinDocumento || exportacion" ng-model="electronica" aria-label="Checkbox 1">
+                                        Electronica
+                                    </md-checkbox>
+                                    <md-checkbox ng-click="obtenerTipoDePago('sinDocumento')"  ng-disabled="exportacion || electronica" ng-model="sinDocumento" aria-label="Checkbox 1">
+                                        Sin Documento
+                                    </md-checkbox>
+                                    <br>
+                                    <md-checkbox  ng-click="obtenerPago('efectivo')" ng-disabled="debito || credito || transferenacia" ng-model="efectivo" aria-label="Checkbox 1">
+                                    Efectivo
+                                </md-checkbox>
+                                    <md-checkbox ng-click="obtenerPago('debito')" ng-disabled="efectivo || credito || transferenacia" ng-model="debito" aria-label="Checkbox 1">
+                                        Debito
+                                    </md-checkbox>
+                                    <md-checkbox ng-click="obtenerPago('credito')"  ng-disabled="debito || efectivo || transferenacia" ng-model="credito" aria-label="Checkbox 1">
+                                        Credito
+                                    </md-checkbox>
+                                    <md-checkbox ng-click="obtenerPago('transferenacia')" ng-disabled="credito || debito || efectivo"  ng-model="transferenacia" aria-label="Checkbox 1">
+                                        transferenacia
+                                    </md-checkbox>
+
+
+                                    <table>
+                                        <tr>
+                                            <th ng-show="sinDocumento" >Total del documento :</th>
+                                            <th ng-show="exportacion || electronica"  >+ 19% IVA</th>
+                                            <th ng-show="exportacion || electronica || sinDocumento" >{{totalFactura}}</th>
+                                            <th ng-show="exportacion || electronica"> Numero de Factura :</th>
+                                            <th ng-show="exportacion || electronica"> <input ng-model="numeroDeDocumento" type="text" ></th>
+                                        </tr>
+
+
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <th ng-show="exportacion || electronica || sinDocumento"  >Total restante a pagar : </th>
+                                            <th ng-show="exportacion || electronica || sinDocumento"  >{{totalAPagar}}</th>
+
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <th ng-show="electronica">
+                                                <md-checkbox  ng-model="pagoFuturo" aria-label="Checkbox 1">
+                                                 pago a 30 dias ?
+                                                </md-checkbox>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </center>
+                        </div>
 
                     </div>
-                </center>
-
-
-
-                    <div layout-gt-sm="row">
-                        <md-checkbox  ng-click="obtenerPago('efectivo')" ng-disabled="debito || credito || transferenacia" ng-model="efectivo" aria-label="Checkbox 1">
-                            Efectivo
-                        </md-checkbox>
-                        <md-checkbox ng-click="obtenerPago('debito')" ng-disabled="efectivo || credito || transferenacia" ng-model="debito" aria-label="Checkbox 1">
-                            Debito
-                        </md-checkbox>
-                        <md-checkbox ng-click="obtenerPago('credito')"  ng-disabled="debito || efectivo || transferenacia" ng-model="credito" aria-label="Checkbox 1">
-                            Credito
-                        </md-checkbox>
-                        <md-checkbox ng-click="obtenerPago('transferenacia')" ng-disabled="credito || debito || efectivo"  ng-model="transferenacia" aria-label="Checkbox 1">
-                            transferenacia
-                        </md-checkbox>
-
-                    </div>
-
-
 
                 </div>
+
 
 
             </md-dialog-content>

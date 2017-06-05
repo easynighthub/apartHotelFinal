@@ -45,7 +45,7 @@
 <div class="content-grid mdl-grid">
 
 
-        <md-card   class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-cell--12-col-tablet" ng-repeat="reserva in reservas"  >
+        <md-card ng-show="!reserva.anulada && !reserva.checkIn && !reserva.checkOut"  class="mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-cell--12-col-tablet" ng-repeat="reserva in reservas"  >
             <center><button  id="booking" ng-show="reserva.empresaId == '-Kl-X2V8WvJ0NuAukYsM'" class="mdl-color--light-blue mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
                 Booking
             </button>

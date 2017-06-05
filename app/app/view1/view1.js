@@ -194,7 +194,7 @@ angular.module('myApp.view1', ['ngRoute'])
                         fechaCheckIn : new Date().getTime()
                     });
                     console.log(new Date());
-                    location.reload();
+                  //  location.reload();
                     $mdDialog.hide();
                 }
 
@@ -238,7 +238,7 @@ angular.module('myApp.view1', ['ngRoute'])
                         descripcionAnular : descripcionAnular,
                         fechaAnulacion : new Date().getTime()
                     });
-                    location.reload();
+                    //location.reload();
                     $mdDialog.hide();
                 }
 
@@ -252,9 +252,6 @@ angular.module('myApp.view1', ['ngRoute'])
                 };
 
             }
-
-
-
             function DialogController($scope, $mdDialog,$timeout, $q, $log, reservaSelect,titulo) {
                 $scope.titulo = titulo;
                 console.log(reservaSelect);
@@ -603,8 +600,7 @@ angular.module('myApp.view1', ['ngRoute'])
                         return;
                     }
                     if (!$scope.reserva.detalle) {
-                        console.log("falta esta wea 1");
-                        return;
+                        $scope.reserva.detalle = "Sin detalle ";
                     }
 
 
