@@ -102,11 +102,11 @@ angular.module('myApp.view2', ['ngRoute'])
                         descuento : parseInt($scope.descuentoIngresado),
                         recepcionistaIdDescuento: recepcionista.uid,
                         motivoDescuento: $scope.motivoDescuento,
-                        aceptado :false,
+                        aceptado :true,
                         fechaDescuento : new Date().getTime()
                     });
                     console.log(new Date());
-                    location.reload();
+                    //location.reload();
                     $mdDialog.hide();
                 }
 
@@ -153,7 +153,7 @@ angular.module('myApp.view2', ['ngRoute'])
                         medioDePago: pago
                     });
                     console.log(new Date());
-                    location.reload();
+                   // location.reload();
                     $mdDialog.hide();
                 };
 
@@ -270,7 +270,7 @@ angular.module('myApp.view2', ['ngRoute'])
                             documentoPagado :!$scope.pagoFuturo,
                             modoDePago : pago,
                             tipoDeDocumento : tipoDePago,
-                            numeroDeDocumento : $scope.numeroDeDocumento,
+                            numeroDexDocumento : $scope.numeroDeDocumento,
                             totalDocumentoPorPagar :$scope.totalAPagar,
                             totalFactura :$scope.totalFactura,
 

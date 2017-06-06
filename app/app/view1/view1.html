@@ -124,10 +124,10 @@
 </div>
 
 
-<button ng-click="dialogAgregarReserva()" id="view-source" style="background:#1b001b"
+<button ng-click="dialogAgregarReserva()" id="view-source"
    class="mdl-button mdl-js-button mdl-button--fab  mdl-js-ripple-effect mdl-button--colored mdl-color-text--white">
 
-    <i class="material-icons">event</i></button>
+    <i class="material-icons">add</i></button>
 
 <style>
     #view-source {
@@ -156,7 +156,7 @@
         <form ng-cloak>
 
             <md-toolbar>
-                <div style="background: #795548 ; width: 100%;" class=" md-toolbar-tools">
+                <div style="background: #448aff ; width: 100%;" class="mdl-button--colored md-toolbar-tools">
                     <h2>{{titulo}}</h2>
                     <span flex></span>
 
@@ -168,6 +168,7 @@
             </md-toolbar>
 
         <md-dialog-content>
+
 
             <div class="md-dialog-content" style="background: #E0E0E0"  >
 
@@ -191,7 +192,7 @@
                             >
 
                             </md-datepicker>
-                 <span ng-show="totalDias " class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                 <span ng-show="totalDias" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
                    Total de Dias : {{totalDias}}
                     </span>
                     <br><br>
@@ -316,16 +317,15 @@
 
                     <div layout-gt-sm="row">
 
-
             <!--        <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
                         <label>Nombre </label>
                         <input required="" type="text" ng-model="reserva.nameCliente">
 
                     </md-input-container> -->
 
-                    <md-input-container  class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
-                        <label>Correo </label>
-                        <input required="" type="email" ng-model="reserva.correoCliente">
+                    <md-input-container class=" mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">
+                        <label  >Correo </label>
+                        <input  required="" type="email" ng-model="reserva.correoCliente">
                     </md-input-container>
 
                     <md-input-container class="mdl-cell mdl-cell--12-col mdl-cell--12-col-phone">

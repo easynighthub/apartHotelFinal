@@ -9,6 +9,7 @@ angular.module('myApp', [
   'myApp.view2',
     'myApp.empresas',
     'myApp.habitaciones',
+    'myApp.facturaPorCobrar',
 
 ]).
 config(['$locationProvider', '$routeProvider',

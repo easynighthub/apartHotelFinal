@@ -11,58 +11,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="app.css">
 
-  <link rel="stylesheet" href="css/cssCrearReserva.css">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
 
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.brown-orange.min.css" />
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css" />
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
 </head>
 <body>
+
 <!-- Always shows a header, even in smaller screens. -->
-<div  class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+<div class=" demo-layout  mdl-layout mdl-js-layout mdl-layout--fixed-header  mdl-layout--fixed-drawer">
   <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
+    <div class="mdl-color--white   mdl-layout__header-row">
       <!-- Title -->
-      <span class="mdl-layout-title">Apart Hotel Santa Blanca</span>
+      <span class="mdl-layout-title"></span>
       <!-- Add spacer, to align navigation to the right -->
       <div class="mdl-layout-spacer"></div>
       <!-- Navigation. We hide it in small screens. -->
       <nav class="mdl-navigation mdl-layout--large-screen-only">
 
 
-        <md-button href="#!/view1" class="mdl-cell mdl-cell--12-col  mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        <md-button href="#!/view1"  class=" mdl-cell mdl-cell--12-col  mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
          Reservas
         </md-button>
         <md-button href="#!/view2" class="mdl-cell mdl-cell--12-col mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
        Check In
         </md-button>
-        <a id="sign-out-button" class="mdl-navigation__link" href="">Salir</a>
-
+          <i style="max-font-size: 100px" id="sign-out-button"  class="mdl-navigation__link mdl-navigation__link mdl-color-text--blue  material-icons" style="vertical-align: middle;">power_settings_new</i>
       </nav>
     </div>
   </header>
-  <div class="mdl-layout__drawer">
+  <div class="mdl-color--white mdl-shadow--1dp mdl-layout__drawer">
     <span class="mdl-layout-title">Menú</span>
     <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="#!/view1">
+      <a class="mdl-navigation__link mdl-color-text--blue 	" href="#!/view1">
         <i class="material-icons " style="vertical-align: middle;">event</i>
         Ver Reservas</a>
-      <a class="mdl-navigation__link" href="#!/view2">
+      <a class="mdl-navigation__link mdl-color-text--blue" href="#!/view2">
         <i class="material-icons" style="vertical-align: middle;">assignment_turned_in</i>
         Ver Check In</a>
-      <a class="mdl-navigation__link" href="#!/habitaciones">
+      <a class="mdl-navigation__link mdl-color-text--blue" href="#!/habitaciones">
         <i class="material-icons" style="vertical-align: middle;">hotel</i>
         Ver Habitaciones</a>
-      <a class="mdl-navigation__link" href="#!/empresas">
+      <a class="mdl-navigation__link mdl-color-text--blue" href="#!/empresas">
         <i class="material-icons" style="vertical-align: middle;">business</i>
         Ver Empresas</a>
+      <a class="mdl-navigation__link mdl-color-text--blue" href="#!/facturaPorCobrar">
+        <i class="material-icons" style="vertical-align: middle;">business</i>
+        Facturas Por Cobrar</a>
 
-      <a class="mdl-navigation__link" href="">Link</a>
     </nav>
+
   </div>
+
   <main class="mdl-layout__content">
     <div class="page-content">
       <div ng-view>
@@ -96,7 +99,7 @@
 <script src="view2/view2.js"></script>
 <script src="empresas/empresas.js"></script>
 <script src="habitaciones/habitaciones.js"></script>
-
+<script src="facturaPorCobrar/facturaPorCobrar.js"></script>
 
 <!-- <script src="pantallaGeneral/pantallaGeneral.js"></script>
 <script src="agregarReserva/agregarReserva.js"></script>

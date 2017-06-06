@@ -15,7 +15,7 @@ angular.module('myApp.view1', ['ngRoute'])
     .controller('view1Ctrl', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog','$timeout', '$q', '$log',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope, $mdDialog,$timeout, $q, $log) {
 
-            var recepcionista = window.currenUser;
+            var recepcionista = firebase.auth().currentUser;
             console.log(recepcionista);
 
 

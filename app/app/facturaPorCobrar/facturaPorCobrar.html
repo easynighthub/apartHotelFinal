@@ -1,0 +1,103 @@
+
+<table class=" mdl-cell--12-col mdl-cell--12-col-phone mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+    <thead>
+    <tr  >
+        <th>Nombre Empresa</th>
+        <th>Fecha Facturacion</th>
+        <th>Cobro</th>
+        <th>Accion</th>
+
+
+        <!--   <th>ASISTENCIAS MENSUALES</th> -->
+
+    </tr>
+    </thead>
+    <tbody ng-repeat="factura in facturas" ng-show="factura.checkOut && !factura.documentoPagado">
+    <tr>
+        <td>{{getEmpresa(factura.empresaId)}}</td>
+
+        <td>{{factura.dateInCheckOut | date:"EEEE d', 'MMMM" }}</td>
+        <td>${{factura.totalDocumentoPorPagar}}</td>
+        <td>
+            <md-button ng-click="dialogPagarFactura(factura)"
+                       class=" mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Pagar</md-button>
+
+
+        </td>
+
+
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+<script type="text/ng-template" id="dialogPagarFacturaHTML">
+    <md-dialog  aria-label="Confirmar Check In">
+        <form ng-cloak>
+
+            <md-toolbar>
+                <div style="background: #448aff ; width: 1000px;" class=" md-toolbar-tools">
+                    <h2>Pagar Factura</h2>
+                    <span flex></span>
+
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        X <md-icon  aria-label="Close dialog"></md-icon>
+                    </md-button>
+
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+
+                <div class="md-dialog-content"   >
+
+
+                    <div layout-gt-sm="row">
+                        <table>
+
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">event</i></td>
+                                <td> Empresa</td>
+                                <td>:</td>
+                                <td>{{getEmpresa(factura.empresaId)}} </td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">event</i></td>
+                                <td> Fecha De Facturacion</td>
+                                <td>:</td>
+                                <td>{{factura.dateInCheckOut | date:"EEEE d', 'MMMM" }}</td>
+                            </tr>
+                            <tr>
+                                <td>  <i class="material-icons " style="vertical-align: middle;">person</i></td>
+                                <td> Nombre</td>
+                                <td>:</td>
+                                <td>${{factura.totalDocumentoPorPagar}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+
+            </md-dialog-content>
+
+            <md-dialog-actions layout="row"  >
+                <md-button ng-click="cancel()" class="md-primary">
+                    Cancelar
+                </md-button>
+
+                <div>
+
+                </div>
+
+                <md-button  ng-click="Anular(descripcionAnular)" class="mdl-cell mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    Pagar
+                </md-button>
+
+            </md-dialog-actions>
+
+        </form>
+    </md-dialog>
+</script>
