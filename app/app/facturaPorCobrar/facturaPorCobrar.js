@@ -15,11 +15,11 @@ angular.module('myApp.facturaPorCobrar', ['ngRoute'])
     .controller('viewfacturaPorCobrar', ['$scope', '$firebaseObject', '$firebaseArray', '$filter', '$rootScope','$mdDialog',
         function($scope, $firebaseObject, $firebaseArray, $filter, $rootScope,$mdDialog) {
 
+
+            var recepcionista = window.currenUser;
+            console.log(recepcionista);
             var buscarEmpresas = firebase.database().ref().child('company');
             var buscarEmpresasER = $firebaseArray(buscarEmpresas);
-            var recepcionista = firebase.auth().currentUser;
-            console.log(recepcionista);
-
 
 
             $scope.facturas = [];
