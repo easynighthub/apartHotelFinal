@@ -254,6 +254,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
             }
             function DialogController($scope, $mdDialog,$timeout, $q, $log, reservaSelect,titulo) {
+                var recepcionista = window.currenUser;
                 $scope.titulo = titulo;
                 console.log(reservaSelect);
                 $scope.reserva =[];
