@@ -271,7 +271,7 @@ angular.module('myApp.view1', ['ngRoute'])
                    traerEmpresas();
                    traerUsuarios();
                 }
-                else{a
+                else{
 
                     $scope.fechaInicio = new Date(reservaSelect.fechaInicio);
                     $scope.fechaFin = new Date(reservaSelect.fechaFin);
